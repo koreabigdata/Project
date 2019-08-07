@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010ac9a0-7417-436a-9bf0-e8f1376a916f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/pyvenv.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/venv/pyvenv.cfg" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -108,7 +108,7 @@
       <workItem from="1565078455184" duration="3074000" />
       <workItem from="1565158760873" duration="95000" />
       <workItem from="1565161144260" duration="585000" />
-      <workItem from="1565169218402" duration="260000" />
+      <workItem from="1565169218402" duration="462000" />
     </task>
     <servers />
   </component>
