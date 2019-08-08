@@ -58,48 +58,21 @@
                 <img src="static/img2.png" class="img-fluid" alt="Responsive image">
             </div>
 
-            <div class = "container">
-                <ul class="nav justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="">산 정보</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">등산로 추천</a>
-                    </li>
-                </ul>
-{#            {% include 'menu1.html' %}#}
-                <div class="container">
-                    {%  block contents %}
-                    {% endblock contents %}
-                </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> 산 정보
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option2" autocomplete="off"> 등산로 추천
+              </label>
+            </div>
+
+            <div class="container">
+                {%  block contents %}
+                {% endblock contents %}
+            </div>
         </div>
     </div>
-
-
-{##}
-{#        <div class = "row">#}
-{#            <div class = "col-lg-8 col-md-12 col-sm-12">#}
-{#                <div id="map" style='height:800px;'></div>#}
-{#            </div>#}
-{#            <div class = "col-4">#}
-{#                <div class = "container">#}
-{#                    <form class="form-inline my-2 my-lg-0">#}
-{#                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>#}
-{#                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">#}
-{#                    </form>#}
-{#                    <div class = "container">#}
-{#                        <img src="static/img2.png" class="img-fluid" alt="Responsive image">#}
-{#                    </div>#}
-{#                    <div class = "container">#}
-{#                        <div class="btn-group btn-group-lg mx-auto " role="select" >#}
-{#                            <button type="button" class="btn btn-secondary">산 정보</button>#}
-{#                            <button type="button" class="btn btn-secondary">등산로 추천</button>#}
-{#                        </div>#}
-{#                        {% include 'base.html' %}#}
-
-{#                            {%  block contents %}#}
-{#                            {% endblock contents %}#}
-
 
 
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef6101b64dc2e1434094c66b80ba7f41"></script>
