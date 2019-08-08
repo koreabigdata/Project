@@ -1,11 +1,13 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, request
 
 app = Flask(__name__)
 
 mt_example = ['아차산','관악산','남산']
+
 @app.route('/')
-def hello_world():
-    return render_template('index.html',mt_example)
+@app.route('/<task>')
+def hello_world(task=''):
+    return render_template('index.html', task=task)
 
 
 if __name__ == '__main__':
