@@ -54,15 +54,8 @@
             <div class = "container">
                 <img src="static/img2.png" class="img-fluid" alt="Responsive image">
             </div>
-
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-secondary active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked> 산 정보
-              </label>
-              <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option2" autocomplete="off"> 등산로 추천
-              </label>
-            </div>
+            <a href="http://127.0.0.1:5000/1" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">산 정보</a>
+            <a href="http://127.0.0.1:5000/2" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">등산로 추천</a>
 
             <div class="container">
                 {%  block contents %}
@@ -73,7 +66,7 @@
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef6101b64dc2e1434094c66b80ba7f41&libraries=services,clusterer,drawing"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef6101b64dc2e1434094c66b80ba7f41&libraries=clusterer"></script>
 	<script type="text/javascript" src="static/javascripts/map1.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
