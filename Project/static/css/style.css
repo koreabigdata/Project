@@ -1,0 +1,42 @@
+#map{
+    height: max-content;
+    width: 60em;
+}
+#risk_img{
+    margin-top: 30px;
+}
+
+.main_button{
+    margin-left: 2em;
+    margin-bottom: 2em;
+}
+
+.btn.btn-secondary{
+    width: 9em;
+    background-color: white!important;
+    color: black!important;;
+}
+
+#info{
+    margin-left: 2em;
+}
+.card{
+    width: 15em;
+    height: 10em;
+}
+#background{
+    border-color: black;
+}
+.row{
+    /*background-color: black;*/
+
+}
+.form-control.mr-sm-2{
+    margin-left: 3em;
+    border-color: black;
+}
+#search_button{
+    background-color: black;
+    color: white;
+    border: black;
+}
