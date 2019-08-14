@@ -4,6 +4,7 @@
 	<meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href={{ url_for('static', filename='css/style.css') }}/>
     <title>Project</title>
 </head>
 <body>
@@ -39,7 +40,7 @@
 
     <div class="row">
         <div class="col-lg-8 col-md-12 col-sm-12">
-            <div class = "container">
+            <div class = "container-fluid">
                 <div id="map" style='height:800px;'></div>
 ㄴ
             </div>
@@ -47,20 +48,23 @@
         <div class="col-4">
             <div class = "container">
                 <form class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" id="search_button" type="submit">Search</button>
                 </form>
             </div>
 
             <div class = "container">
-                <img src="static/img2.png" class="img-fluid" alt="Responsive image">
+                <img src="static/img1.png" id=risk_img class="img-fluid" alt="Responsive image">
             </div>
-            <a href="http://127.0.0.1:5000/1" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">산 정보</a>
-            <a href="http://127.0.0.1:5000/2" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">등산로 추천</a>
-
-            <div class="container">
-                {%  block contents %}
-                {% endblock contents %}
+            <div class="container-fluid" id="background">
+                <div class = "main_button">
+                    <a href="http://127.0.0.1:5000/1" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">산 정보</a>
+                    <a href="http://127.0.0.1:5000/2" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">등산로 추천</a>
+                </div>
+                <div class="container" id="info">
+                    {%  block contents %}
+                    {% endblock contents %}
+                </div>
             </div>
         </div>
     </div>
