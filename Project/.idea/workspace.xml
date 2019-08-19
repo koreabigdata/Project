@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="86dad170-66f2-4f56-97bd-e4c2fab4fc56" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/javascripts/map1.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/javascripts/map1.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/menu1.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/menu1.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +16,8 @@
       <list>
         <option value="Flask Main" />
         <option value="HTML File" />
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -110,7 +107,7 @@
       <workItem from="1565753296003" duration="5801000" />
       <workItem from="1565919854722" duration="4031000" />
       <workItem from="1566028246714" duration="1598000" />
-      <workItem from="1566181104297" duration="6293000" />
+      <workItem from="1566181104297" duration="10592000" />
     </task>
     <servers />
   </component>
