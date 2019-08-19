@@ -1,3 +1,8 @@
+.navbar{
+    border-bottom: 1px black;
+    background-color: white!important;
+
+}
 #map{
     height: max-content;
     width: 60em;
@@ -9,6 +14,7 @@
 .main_button{
     margin-left: 2em;
     margin-bottom: 2em;
+    margin-top: 2em;
 }
 
 .btn.btn-secondary{
@@ -27,12 +33,9 @@
 #background{
     border-color: black;
 }
-.row{
-    /*background-color: black;*/
 
-}
 .form-control.mr-sm-2{
-    margin-left: 3em;
+    margin-left: 4em;
     border-color: black;
 }
 #search_button{

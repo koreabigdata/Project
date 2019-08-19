@@ -38,20 +38,156 @@
     </nav>
 
 
-    <div class="row">
-        <div class="col-lg-8 col-md-12 col-sm-12">
-            <div class = "container-fluid">
-                <div id="map" style='height:800px;'></div>
-ㄴ
-            </div>
-        </div>
-        <div class="col-4">
-            <div class = "container">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" id="search_button" type="submit">Search</button>
-                </form>
-            </div>
+    <div class = "container-fluid">
+        <div id="map" style='height:800px;'></div>
+    </div>
+
+        <div class="selectedArea">
+                    <div class="addressArea">
+                        <span class="unit">
+                            <div class="unit_box">
+                            <select class="inp"  name="sido" id="sido" >
+                                     <option value="42" selected="selected" >  강원도  </option>
+
+                                     <option value="41"  >  경기도  </option>
+
+                                     <option value="48"  >  경상남도  </option>
+
+                                     <option value="47"  >  경상북도  </option>
+
+                                     <option value="29"  >  광주광역시  </option>
+
+                                     <option value="27"  >  대구광역시  </option>
+
+                                     <option value="30"  >  대전광역시  </option>
+
+                                     <option value="26"  >  부산광역시  </option>
+
+                                     <option value="11"  >  서울특별시  </option>
+
+                                     <option value="36"  >  세종특별자치시  </option>
+
+                                     <option value="31"  >  울산광역시  </option>
+
+                                     <option value="28"  >  인천광역시  </option>
+
+                                     <option value="46"  >  전라남도  </option>
+
+                                     <option value="45"  >  전라북도  </option>
+
+                                     <option value="50"  >  제주특별자치도  </option>
+
+                                     <option value="44"  >  충청남도  </option>
+
+                                     <option value="43"  >  충청북도  </option>
+
+                            </select>
+
+                            </div>
+                        </span>
+
+                        <span class="unit">
+                            <select class="inp"  name="sigungu" id="sigungu">
+
+                                     <option value="999"   >  전체  </option>
+
+                                     <option value="820"   >  가평군  </option>
+
+                                     <option value="281"   >  고양시 덕양구  </option>
+
+                                     <option value="285"   >  고양시 일산동구  </option>
+
+                                     <option value="287"   >  고양시 일산서구  </option>
+
+                                     <option value="290"   >  과천시  </option>
+
+                                     <option value="210"   >  광명시  </option>
+
+                                     <option value="610"   >  광주시  </option>
+
+                                     <option value="310"   >  구리시  </option>
+
+                                     <option value="410"   >  군포시  </option>
+
+                                     <option value="570"   >  김포시  </option>
+
+                                     <option value="360"   >  남양주시  </option>
+
+                                     <option value="250"   >  동두천시  </option>
+
+                                     <option value="190"   >  부천시  </option>
+
+                                     <option value="135"   >  성남시 분당구  </option>
+
+                                     <option value="131"   >  성남시 수정구  </option>
+
+                                     <option value="133"   >  성남시 중원구  </option>
+
+                                     <option value="113"   >  수원시 권선구  </option>
+
+                                     <option value="117"   >  수원시 영통구  </option>
+
+                                     <option value="111"   >  수원시 장안구  </option>
+
+                                     <option value="115"   >  수원시 팔달구  </option>
+
+                                     <option value="390"   >  시흥시  </option>
+
+                                     <option value="273"   >  안산시 단원구  </option>
+
+                                     <option value="271"   >  안산시 상록구  </option>
+
+                                     <option value="550"   >  안성시  </option>
+
+                                     <option value="173"   >  안양시 동안구  </option>
+
+                                     <option value="171"   >  안양시 만안구  </option>
+
+                                     <option value="630"   >  양주시  </option>
+
+                                     <option value="830"   >  양평군  </option>
+
+                                     <option value="670"   >  여주시  </option>
+
+                                     <option value="800"   >  연천군  </option>
+
+                                     <option value="370"   >  오산시  </option>
+
+                                     <option value="463"   >  용인시 기흥구  </option>
+
+                                     <option value="465"   >  용인시 수지구  </option>
+
+                                     <option value="461"   >  용인시 처인구  </option>
+
+                                     <option value="430"   >  의왕시  </option>
+
+                                     <option value="150"   >  의정부시  </option>
+
+                                     <option value="500"   >  이천시  </option>
+
+                                     <option value="480"   >  파주시  </option>
+
+                                     <option value="220"   >  평택시  </option>
+
+                                     <option value="650"   >  포천시  </option>
+
+                                     <option value="450"   >  하남시  </option>
+
+                                     <option value="590"   >  화성시  </option>
+
+                            </select>
+                        </span>
+
+                        <span class="unit">
+                            <select class="inp"  name="emd" id="emd">
+
+                                     <option value="999"   >  전체  </option>
+
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <!-- //지역 선택 영역 -->
 
             <div class = "container">
                 <img src="static/img1.png" id=risk_img class="img-fluid" alt="Responsive image">
