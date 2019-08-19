@@ -46,8 +46,8 @@
                     <div class="addressArea">
                         <span class="unit">
                             <div class="unit_box">
-                            <select class="inp"  name="sido" id="sido" >
-                                     <option value="42" selected="selected" >  강원도  </option>
+                            <select class="inp"  name="sido" id="sido" onchange="alert_select_value(this);">
+                                     <option value="42"  >  강원도  </option>
 
                                      <option value="41"  >  경기도  </option>
 
@@ -89,102 +89,11 @@
                         <span class="unit">
                             <select class="inp"  name="sigungu" id="sigungu">
 
-                                     <option value="999"   >  전체  </option>
 
-                                     <option value="820"   >  가평군  </option>
-
-                                     <option value="281"   >  고양시 덕양구  </option>
-
-                                     <option value="285"   >  고양시 일산동구  </option>
-
-                                     <option value="287"   >  고양시 일산서구  </option>
-
-                                     <option value="290"   >  과천시  </option>
-
-                                     <option value="210"   >  광명시  </option>
-
-                                     <option value="610"   >  광주시  </option>
-
-                                     <option value="310"   >  구리시  </option>
-
-                                     <option value="410"   >  군포시  </option>
-
-                                     <option value="570"   >  김포시  </option>
-
-                                     <option value="360"   >  남양주시  </option>
-
-                                     <option value="250"   >  동두천시  </option>
-
-                                     <option value="190"   >  부천시  </option>
-
-                                     <option value="135"   >  성남시 분당구  </option>
-
-                                     <option value="131"   >  성남시 수정구  </option>
-
-                                     <option value="133"   >  성남시 중원구  </option>
-
-                                     <option value="113"   >  수원시 권선구  </option>
-
-                                     <option value="117"   >  수원시 영통구  </option>
-
-                                     <option value="111"   >  수원시 장안구  </option>
-
-                                     <option value="115"   >  수원시 팔달구  </option>
-
-                                     <option value="390"   >  시흥시  </option>
-
-                                     <option value="273"   >  안산시 단원구  </option>
-
-                                     <option value="271"   >  안산시 상록구  </option>
-
-                                     <option value="550"   >  안성시  </option>
-
-                                     <option value="173"   >  안양시 동안구  </option>
-
-                                     <option value="171"   >  안양시 만안구  </option>
-
-                                     <option value="630"   >  양주시  </option>
-
-                                     <option value="830"   >  양평군  </option>
-
-                                     <option value="670"   >  여주시  </option>
-
-                                     <option value="800"   >  연천군  </option>
-
-                                     <option value="370"   >  오산시  </option>
-
-                                     <option value="463"   >  용인시 기흥구  </option>
-
-                                     <option value="465"   >  용인시 수지구  </option>
-
-                                     <option value="461"   >  용인시 처인구  </option>
-
-                                     <option value="430"   >  의왕시  </option>
-
-                                     <option value="150"   >  의정부시  </option>
-
-                                     <option value="500"   >  이천시  </option>
-
-                                     <option value="480"   >  파주시  </option>
-
-                                     <option value="220"   >  평택시  </option>
-
-                                     <option value="650"   >  포천시  </option>
-
-                                     <option value="450"   >  하남시  </option>
-
-                                     <option value="590"   >  화성시  </option>
 
                             </select>
                         </span>
 
-                        <span class="unit">
-                            <select class="inp"  name="emd" id="emd">
-
-                                     <option value="999"   >  전체  </option>
-
-                            </select>
-                        </span>
                     </div>
                 </div>
                 <!-- //지역 선택 영역 -->
@@ -211,6 +120,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef6101b64dc2e1434094c66b80ba7f41&libraries=services,clusterer,drawing"></script>
 	<script type="text/javascript" src="static/javascripts/map1.js"></script>
+    <script type="text/javascript" src="static/javascripts/search.js"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
