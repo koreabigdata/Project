@@ -1,7 +1,7 @@
+
 .navbar{
     border-bottom: 1px black;
     background-color: white!important;
-
 }
 
 .vertical-nav {
@@ -10,11 +10,12 @@
     height: 100vh;
     position: fixed;
     top: 0;
-    box-shadow: 3px 3px 10px rgba(1, 1, 1, 0.5);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.4s;
     margin-left: 75%;
     margin-right: 0;
     z-index: 2;
+    background-color: rgba(0,0,0,0.8);
 
 }
 #map{
@@ -29,20 +30,26 @@
 #risk_img{
     margin-top: 30px;
 }
-
-.main_button{
+#list_button{
+    color: white;
+    border-color: white;
     margin-left: 2em;
-    margin-bottom: 2em;
-    margin-top: 1em;
 }
 
-#search_nav{
-    margin-top: 5em;
-}
+
 select{
-    margin-top: 1em;
+    margin-top: 5em;
+    margin-bottom: 2em;
+    width: 80%;
+    margin-left: 3%;
 }
-
+#region_select{
+    width: 90%;
+    margin-left: 3%;
+}
+.col{
+    padding: 0;
+}
 #info{
     margin-left: 2em;
 }
