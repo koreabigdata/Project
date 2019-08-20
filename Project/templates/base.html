@@ -38,56 +38,56 @@
     </nav>
 
 
-    <div class = "container-fluid" >
-        <div id="map" style='width:100%;height:800px;'></div>
-        <div class="vertical-nav bg-white" id="sidebar">
-            <div class="container-fluid" id="search_nav">
-                <div class="selectedArea">
-                    <script type="text/javascript" src="static/javascripts/search.js"></script>
-                            <div class="addressArea">
-                                <span class="unit">
-                                    <form action="#">
-                                    <select name="selOne" id="selOne" onchange="doChange(this, 'selTwo')">
-                                        <option value="default">---Select Something---</option>
-                                        <option value="42">  강원도  </option>
-                                        <option value="41">  경기도  </option>
-                                        <option value="48">  경상남도  </option>
-                                        <option value="47">  경상북도  </option>
-                                        <option value="29">  광주광역시  </option>
-                                        <option value="27">  대구광역시  </option>
-                                        <option value="30">  대전광역시  </option>
-                                        <option value="26">  부산광역시  </option>
-                                        <option value="11">  서울특별시  </option>
-                                        <option value="36">  세종특별자치시  </option>
-                                        <option value="31">  울산광역시  </option>
-                                        <option value="28">  인천광역시  </option>
-                                        <option value="46">  전라남도  </option>
-                                        <option value="45">  전라북도  </option>
-                                        <option value="50">  제주특별자치도  </option>
-                                        <option value="44">  충청남도  </option>
-                                        <option value="43">  충청북도  </option>
-                                    </select>
-                                    <select name="selTwo" id="selTwo">
-                                        <option value="default">---Select Something---</option>
-                                    </select>
-                                    </form>
-                                </span>
+    <div class = "container-fluid">
+        <div id="map" style='height:800px;'></div>
+    </div>
 
-                            </div>
+        <div class="selectedArea">
+            <script type="text/javascript" src="static/javascripts/search.js"></script>
+                    <div class="addressArea">
+                        <span class="unit">
+                            <form action="#">
+                            <select name="selOne" id="selOne" onchange="doChange(this, 'selTwo')">
+                                <option value="default">---Select Something---</option>
+                                <option value="42">  강원도  </option>
+                                <option value="41">  경기도  </option>
+                                <option value="48">  경상남도  </option>
+                                <option value="47">  경상북도  </option>
+                                <option value="29">  광주광역시  </option>
+                                <option value="27">  대구광역시  </option>
+                                <option value="30">  대전광역시  </option>
+                                <option value="26">  부산광역시  </option>
+                                <option value="11">  서울특별시  </option>
+                                <option value="36">  세종특별자치시  </option>
+                                <option value="31">  울산광역시  </option>
+                                <option value="28">  인천광역시  </option>
+                                <option value="46">  전라남도  </option>
+                                <option value="45">  전라북도  </option>
+                                <option value="50">  제주특별자치도  </option>
+                                <option value="44">  충청남도  </option>
+                                <option value="43">  충청북도  </option>
+                            </select>
+                            <select name="selTwo" id="selTwo">
+                                <option value="default">---Select Something---</option>
+                            </select>
+                            </form>
+                        </span>
+
+                    </div>
                 </div>
-                        <!-- //지역 선택 영역 -->
+                <!-- //지역 선택 영역 -->
 
-                <div class="container-fluid" id="background">
-                    <div class = "main_button">
-                        <button type="button" class="btn btn-outline-dark" onclick="displayList()">산별 위험도</button>
-                        <div id="name"><ul></ul></div>
-    {#                    <a href="http://127.0.0.1:5000/1" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">산 정보</a>#}
-    {#                    <a href="http://127.0.0.1:5000/2" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">등산로 추천</a>#}
-                    </div>
-                    <div class="container" id="info">
-                        {%  block contents %}
-                        {% endblock contents %}
-                    </div>
+            <div class = "container">
+                <img src="static/img1.png" id=risk_img class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="container-fluid" id="background">
+                <div class = "main_button">
+                    <a href="http://127.0.0.1:5000/1" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">산 정보</a>
+                    <a href="http://127.0.0.1:5000/2" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">등산로 추천</a>
+                </div>
+                <div class="container" id="info">
+                    {%  block contents %}
+                    {% endblock contents %}
                 </div>
             </div>
         </div>

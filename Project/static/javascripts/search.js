@@ -228,16 +228,32 @@ var chungbuk = new Array('괴산군',
     '청주시서원구',
     '청주시흥덕구',
     '충주시')
+// module.exports = {sigun :"sigun"};
+// module.exports.sigun = "search";
+// var a = []
+// function sigunguChange(sigun) {
+//     sigun = sigun.options[sigun.selectedIndex].text;
+//     console.log(sigun);
+// }
 
-function doChange(srcE, targetId) {
+
+function sidoChange(srcE, targetId) {
+    // 첫번째 select
     var val = srcE.options[srcE.selectedIndex].value;
+    var valname = srcE.options[srcE.selectedIndex].text;
+    // console.log(valname);
+    // 두번째 select
     var targetE = document.getElementById(targetId);
+    // var k = targetId.options[targetId.selectedIndex].text;
+
+
     alert("선택정보가 바뀌어 예측데이터를 다시 가져옵니다.");
     removeAll(targetE);
     if (val == '42') {
         for (var i = 0; i < gangwon.length; i++) {
             addOption(gangwon[i], targetE);
         }
+        // console.log(targetE.textContent);
     } else if (val == '41') {
         for (var i = 0; i < gyunggi.length; i++) {
             addOption(gyunggi[i], targetE);
@@ -280,15 +296,15 @@ function doChange(srcE, targetId) {
         }
     } else if (val == '28') {
         for (var i = 0; i < incheon.length; i++) {
-            addOption(jeonnam[i], targetE);
+            addOption(incheon[i], targetE);
         }
     } else if (val == '46') {
         for (var i = 0; i < jeonnam.length; i++) {
-            addOption(jeonbuk[i], targetE);
+            addOption(jeonnam[i], targetE);
         }
     } else if (val == '45') {
         for (var i = 0; i < jeonbuk.length; i++) {
-            addOption(jeju[i], targetE);
+            addOption(jeonbuk[i], targetE);
         }
     } else if (val == '50') {
         for (var i = 0; i < jeju.length; i++) {
@@ -310,6 +326,7 @@ function addOption(value, e) {
     var o = new Option(value);
     try {
         e.add(o);
+
     } catch (ee) {
         e.add(o, null);
     }
