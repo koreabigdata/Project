@@ -3,10 +3,29 @@
     background-color: white!important;
 
 }
-#map{
-    height: max-content;
-    width: 60em;
+
+.vertical-nav {
+    min-width: 17rem;
+    width: 25rem;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    box-shadow: 3px 3px 10px rgba(1, 1, 1, 0.5);
+    transition: all 0.4s;
+    margin-left: 75%;
+    margin-right: 0;
+    z-index: 2;
+
 }
+#map{
+    z-index: 1;
+}
+
+.container-fluid{
+    padding-right: 0;
+    padding-left: 0;
+}
+
 #risk_img{
     margin-top: 30px;
 }
@@ -14,13 +33,14 @@
 .main_button{
     margin-left: 2em;
     margin-bottom: 2em;
-    margin-top: 2em;
+    margin-top: 1em;
 }
 
-.btn.btn-secondary{
-    width: 9em;
-    background-color: white!important;
-    color: black!important;;
+#search_nav{
+    margin-top: 5em;
+}
+select{
+    margin-top: 1em;
 }
 
 #info{
@@ -37,9 +57,4 @@
 .form-control.mr-sm-2{
     margin-left: 4em;
     border-color: black;
-}
-#search_button{
-    background-color: black;
-    color: white;
-    border: black;
 }
