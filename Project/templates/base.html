@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href={{ url_for('static', filename='css/style.css') }}/>
-    <title>Project</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href={{ url_for('static', filename='css/style.css') }}/>
+<title>Project</title>
+<style>
+#pagination {
+    margin: 20px auto;
+    text-align: center;
+}
+
+#pagination a {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#pagination .on {
+    font-weight: bold;
+    cursor: default;
+    color: #777;
+}
+#name_ul li {list-style: none;}
+#name_ul .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+#name_ul .item span {display: block;margin-top:4px;}
+#name_ul .item h5, #name_ul .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#name_ul .item .info{padding:10px 0 10px 55px;}
+#name_ul .info .gray {color:#8a8a8a;}
+#name_ul .info .jibun {padding-left:26px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#name_ul .info .tel {color:#009900;}
+#name_ul .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#name_ul .item .marker_1 {background-position: 0 -10px;}
+#name_ul .item .marker_2 {background-position: 0 -56px;}
+#name_ul .item .marker_3 {background-position: 0 -102px}
+#name_ul .item .marker_4 {background-position: 0 -148px;}
+#name_ul .item .marker_5 {background-position: 0 -194px;}
+#name_ul .item .marker_6 {background-position: 0 -240px;}
+#name_ul .item .marker_7 {background-position: 0 -286px;}
+#name_ul .item .marker_8 {background-position: 0 -332px;}
+#name_ul .item .marker_9 {background-position: 0 -378px;}
+#name_ul .item .marker_10 {background-position: 0 -423px;}
+#name_ul .item .marker_11 {background-position: 0 -470px;}
+#name_ul .item .marker_12 {background-position: 0 -516px;}
+#name_ul .item .marker_13 {background-position: 0 -562px;}
+#name_ul .item .marker_14 {background-position: 0 -608px;}
+#name_ul .item .marker_15 {background-position: 0 -654px;}
+</style>
 </head>
 <body>
 
@@ -39,7 +80,7 @@
 
 
     <div class = "container-fluid">
-        <div class="vertical-nav">
+        <div id = "menu_wrap" class="vertical-nav">
             <div class="row" id="region_select">
                 <div class="col">
                     <select name="selOne" id="selOne" onchange="sidoChange(this, 'selTwo'),showsido(this)">
@@ -72,10 +113,14 @@
             <button type="button" class="btn btn-outline-dark" id="list_button" >산별 위험도</button>
             <br>
             <br>
-            <div id="name"><ul id="name_ul"></ul></div>
+            <hr>
+            <div id="name"><ul id="name_ul"></ul>
+            <div id="pagination"></div></div>
+{#           page#}
 
         </div>
         <div id="map" style='height:800px;'></div>
+
 
     </div>
 

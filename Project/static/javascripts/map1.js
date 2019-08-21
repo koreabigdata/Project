@@ -47,12 +47,8 @@ function placesSearchCB(data, status,pagination) {
         // var bounds = new kakao.maps.LatLngBounds();
 
 
-
-        // hihi = document.getElementById("name_ul");
-        // console.log(hihi.textContent);
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        // map.setBounds(bounds);
-        // console.log(data.length);
+        // 페이지 번호를 표출합니다
+        displayPagination(pagination);
 
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
@@ -70,7 +66,7 @@ function placesSearchCB(data, status,pagination) {
 
 
 function displayPlaces(places) {
-
+    // console.log(document.getElementById('name_ul').childElementCount);
     var listEl = document.getElementById('name_ul'),
     // menuEl = document.getElementById('menu_wrap'),
     fragment = document.createDocumentFragment(),
@@ -134,7 +130,7 @@ function removeMarker() {
     markers = [];
 }
 
-// 검색결과 항목을 Element로 반환하는 함수입니다
+// 검색결과 항목을 Element로 반환하는 함수입니다.
 function getListItem(index, places) {
 
     var el = document.createElement('li'),
@@ -209,7 +205,35 @@ function displayInfowindow(marker, title) {
 }
 var nameList = "";
 
+function displayPagination(pagination) {
+    var paginationEl = document.getElementById('pagination'),
+        fragment = document.createDocumentFragment(),
+        i;
 
+    // 기존에 추가된 페이지번호를 삭제합니다
+    while (paginationEl.hasChildNodes()) {
+        paginationEl.removeChild (paginationEl.lastChild);
+    }
+
+    for (i=1; i<=pagination.last; i++) {
+        var el = document.createElement('a');
+        el.href = "#";
+        el.innerHTML = i;
+
+        if (i===pagination.current) {
+            el.className = 'on';
+        } else {
+            el.onclick = (function(i) {
+                return function() {
+                    pagination.gotoPage(i);
+                }
+            })(i);
+        }
+
+        fragment.appendChild(el);
+    }
+    paginationEl.appendChild(fragment);
+}
 //산위험정보 button 클릭시
 // function  displayList(name){
 //
