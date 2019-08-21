@@ -33,6 +33,7 @@ ps.keywordSearch('서울시 강남구 산', placesSearchCB);
 
 
 // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+var globaldata = [];
 function placesSearchCB(data, status,pagination) {
 
 
@@ -47,6 +48,7 @@ function placesSearchCB(data, status,pagination) {
 
         for (var i = 0; i < data.length; i++) {
             if (data[i].category_name.indexOf('산') != -1) {
+                globaldata.push(data[i]);
                 displayMarker(data[i]);
                 bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
             }
@@ -95,6 +97,37 @@ function displayMarker(place) {
     markers.push(marker);
 }
 
+
+
+var nameList = "";
+function  displayList(name){
+
+    var name_ul = document.getElementById(name);
+
+
+    if(nameList != 0){
+        console.log("aaa");
+        //
+        // while(name_ul.firstChild == null){
+        //     name_ul.removeChild(name_ul.firstChild);
+        //     console.log(name_ul.firstChild);
+        // }
+
+        console.log(name_ul);
+
+        for (var i = 0; i < globaldata.length; i++) {
+            nameList += "<li>" + globaldata[i].place_name + "</li>";
+            document.getElementById("name_ul").innerHTML = nameList;
+        }
+
+    }else if(nameList == 0){
+        console.log('ddd');
+        for (var i = 0; i < globaldata.length; i++) {
+            nameList += "<li>" + globaldata[i].place_name + "</li>";
+            document.getElementById("name_ul").innerHTML = nameList;
+        }
+    }
+}
 
 
 ///

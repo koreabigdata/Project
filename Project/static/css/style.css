@@ -53,10 +53,7 @@ select{
 #info{
     margin-left: 2em;
 }
-.card{
-    width: 15em;
-    height: 10em;
-}
+
 #background{
     border-color: black;
 }
@@ -64,4 +61,8 @@ select{
 .form-control.mr-sm-2{
     margin-left: 4em;
     border-color: black;
+}
+
+#name{
+    color: white;
 }
