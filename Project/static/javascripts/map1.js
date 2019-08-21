@@ -68,7 +68,7 @@ function placesSearchCB(data, status,pagination) {
 function displayPlaces(places) {
     // console.log(document.getElementById('name_ul').childElementCount);
     var listEl = document.getElementById('name_ul'),
-    // menuEl = document.getElementById('menu_wrap'),
+    menuEl = document.getElementById('menu_wrap'),
     fragment = document.createDocumentFragment(),
     bounds = new kakao.maps.LatLngBounds(),
     listStr = '';
@@ -117,7 +117,7 @@ function displayPlaces(places) {
 
     // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
     listEl.appendChild(fragment);
-    // menuEl.scrollTop = 0;
+    menuEl.scrollTop = 0;
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     map.setBounds(bounds);
