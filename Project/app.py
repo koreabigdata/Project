@@ -10,5 +10,10 @@ def hello_world(task=''):
     return render_template('index.html', task=task)
 
 
+@app.route('/analysis')
+def analysis_page():
+    return render_template('analysis.html')
+
+
 if __name__ == '__main__':
     app.run()
