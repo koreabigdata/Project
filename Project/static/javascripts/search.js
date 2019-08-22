@@ -228,13 +228,6 @@ var chungbuk = new Array('괴산군',
     '청주시서원구',
     '청주시흥덕구',
     '충주시')
-// module.exports = {sigun :"sigun"};
-// module.exports.sigun = "search";
-// var a = []
-// function sigunguChange(sigun) {
-//     sigun = sigun.options[sigun.selectedIndex].text;
-//     console.log(sigun);
-// }
 
 
 function sidoChange(srcE, targetId) {
