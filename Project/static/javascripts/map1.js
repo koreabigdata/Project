@@ -1,51 +1,92 @@
 
-timestamp = new Date().getTime();
+
 // console.log(timestamp);
 //
 //
 // "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+"내APIKEY";
 
-var time =[];
+
 // var lat = 37.544144;
 // var lon = 127.207846;
-var lat;
-var lon;
-var appid = "67d8b1d584e1f82bb3207d448c26715c";
-var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&appid="+appid;
+
+// var appid = "67d8b1d584e1f82bb3207d448c26715c";
+// var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&appid="+appid;
 
 // var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat=37.544144&lon=127.207846&appid=67d8b1d584e1f82bb3207d448c26715c";
 
-$.ajax({
-    url: apiURI,
-    dataType: "json",
-    type: "GET",
-    async: "false",
-    success: function(data) {
 
-        var min = timestamp;
-        var result;
-        for(var i=0 ; i< 40 ; i++){
+function weather(lat, lon){
+    var time =[];
+    console.log(lat, lon);
+    // var lat = 37.544144;
+    // var lon = 127.207846;
+    timestamp = new Date().getTime();
+    var appid = "67d8b1d584e1f82bb3207d448c26715c";
+    var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&appid="+appid;
+    $.ajax({
+        url: apiURI,
+        dataType: "json",
+        type: "GET",
+        async: "false",
+        success: function(data) {
 
-            time[i] = timestamp - data.list[i].dt;
+            var min = timestamp;
+            var result;
+            for(var i=0 ; i< 40 ; i++){
 
-            if(time[i] > 0 && min > time[i]){
-                min = time[i];
-                result = i;
+                time[i] = timestamp - data.list[i].dt;
+
+                if(time[i] > 0 && min > time[i]){
+                    min = time[i];
+                    result = i;
+                }
             }
-        }
-        // console.log((data.list[result].main.temp - 273.15));
-        console.log(data.list[result]);
-        console.log("습도 : "+ data.list[result].main.humidity);
+            // console.log((data.list[result].main.temp - 273.15));
+            // console.log(data.list[result].city);
+            // console.log(data.list[result]);
 
-        console.log("기 : "+ (data.list[result].main.temp- 273.15));
-        console.log("강수량 : " + (data.list[result].rain));   //undefinded 일대 0으로 처리하기
-        console.log("풍속 : "+ data.list[result].wind.speed );
-        console.log("습도 : "+ data.list[result].main.humidity);
-        console.log("적설량 : "+ data.list[result].snow); //undefind 일때 0으로 처리하
-        var x = (data.list[result].main.temp- 273.15)-(100-data.list[result].main.humidity)/5;
-        console.log("이슬점 : "+ x);
-    }
-})
+            if((data.list[result].rain) == undefined){
+                data.list[result].rain = 0;
+                // console.log(data.list[result].rain);
+            }else if((data.list[result].rain["1h"]) == undefined){
+                if(data.list[result].rain["3h"] == undefined){
+                    data.list[result].rain = 0;
+                    // console.log(data.list[result].rain);
+                }else {
+                    data.list[result].rain = data.list[result].rain["3h"];
+                    // console.log(data.list[result].rain);
+                }
+            }
+
+            if((data.list[result].snow) == undefined){
+                data.list[result].snow = 0;
+                // console.log(data.list[result].snow);
+            }else if((data.list[result].snow["1h"]) == undefined){
+                if(data.list[result].snow["3h"] == undefined){
+                    data.list[result].snow = 0;
+                    // console.log(data.list[result].snow);
+                }else {
+                    data.list[result].snow = data.list[result].snow["3h"];
+                    // console.log(data.list[result].snow);
+                }
+            }
+
+
+
+            console.log("습도 : "+ data.list[result].main.humidity);
+
+            console.log("기 : "+ (data.list[result].main.temp- 273.15));
+            console.log("강수량 : " +(data.list[result].rain));
+            console.log("풍속 : "+ data.list[result].wind.speed );
+            console.log("습도 : "+ data.list[result].main.humidity);
+            console.log("적설량 : "+ data.list[result].snow);
+            var x = (data.list[result].main.temp- 273.15)-(100-data.list[result].main.humidity)/5;
+            console.log("이슬점 : "+ x);
+
+            console.log("=====================");
+        }
+    })
+}
 
 var markers=[];
 function showsido(first) {
@@ -160,6 +201,11 @@ function displayPlaces(places) {
     removeMarker();
 
     for ( var i=0; i<places.length; i++ ) {
+            lat = places[i].y;
+            lon = places[i].x
+
+            weather(lat, lon);
+
             globaldata.push(places[i]);
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
             marker = addMarker(placePosition, i),
@@ -186,10 +232,11 @@ function displayPlaces(places) {
             point_x = places[i].x;
             point_y = places[i].y;
 
+
             kakao.maps.event.addListener(marker, 'onclick', function() {
                 map.setLevel(3);
                 panTo(point_y,point_x);
-                console.log(point_y,point_x);
+
                 // console.log(places[i].y,places[i].x);
                 // console.log(marker[i].position);
                 // focusmap(marker,title);
@@ -207,7 +254,11 @@ function displayPlaces(places) {
                 // 지도 중심을 부드럽게 이동시킵니다
                 // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
                 // console.log(point_y,point_x);
-                console.log((places[i].x));
+
+                lat = point_y;
+                lon = point_x;
+
+                weather(lat, lon);
                 map.setLevel(3);
                 panTo(point_y,point_x);
 
@@ -224,6 +275,7 @@ function displayPlaces(places) {
 
     }
 
+
     // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
     listEl.appendChild(fragment);
     menuEl.scrollTop = 0;
@@ -231,6 +283,7 @@ function displayPlaces(places) {
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     map.setBounds(bounds);
 }
+
 function focusmap(marker,title){
     // console.log(marker);
     alert(marker.length);
