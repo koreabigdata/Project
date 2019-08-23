@@ -4,7 +4,6 @@
     <list default="true" id="86dad170-66f2-4f56-97bd-e4c2fab4fc56" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/javascripts/map1.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/javascripts/map1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/javascripts/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/javascripts/search.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +115,7 @@
       <workItem from="1566321848760" duration="7941000" />
       <workItem from="1566356081404" duration="16636000" />
       <workItem from="1566380912600" duration="433000" />
-      <workItem from="1566441639453" duration="22419000" />
+      <workItem from="1566441639453" duration="25067000" />
     </task>
     <servers />
   </component>

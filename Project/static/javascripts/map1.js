@@ -52,7 +52,12 @@ function panTo(position_x,position_y) {
     map.panTo(moveLatLon);
 }
 
-
+// var customOverlay = new kakao.maps.CustomOverlay({
+//     map : map,
+//     position : position,
+//     content : content,
+//     yAnchor : 1
+// });
 
 // 장소 검색 객체를 생성합니다
 
@@ -133,7 +138,9 @@ function displayPlaces(places) {
             point_y = places[i].y;
 
             kakao.maps.event.addListener(marker, 'onclick', function() {
-                console.log(point_x,point_y);
+                map.setLevel(3);
+                panTo(point_y,point_x);
+                console.log(point_y,point_x);
                 // console.log(places[i].y,places[i].x);
                 // console.log(marker[i].position);
                 // focusmap(marker,title);
@@ -148,11 +155,10 @@ function displayPlaces(places) {
 
 
             itemEl.onclick = function(){
-
-
                 // 지도 중심을 부드럽게 이동시킵니다
                 // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-                map.setLevel(2);
+                console.log(point_y,point_x);
+                map.setLevel(3);
                 panTo(point_y,point_x);
              }
             itemEl.onmouseover =  function () {
