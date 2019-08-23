@@ -1,3 +1,52 @@
+
+timestamp = new Date().getTime();
+// console.log(timestamp);
+//
+//
+// "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+"내APIKEY";
+
+var time =[];
+// var lat = 37.544144;
+// var lon = 127.207846;
+var lat;
+var lon;
+var appid = "67d8b1d584e1f82bb3207d448c26715c";
+var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&appid="+appid;
+
+// var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat=37.544144&lon=127.207846&appid=67d8b1d584e1f82bb3207d448c26715c";
+
+$.ajax({
+    url: apiURI,
+    dataType: "json",
+    type: "GET",
+    async: "false",
+    success: function(data) {
+
+        var min = timestamp;
+        var result;
+        for(var i=0 ; i< 40 ; i++){
+
+            time[i] = timestamp - data.list[i].dt;
+
+            if(time[i] > 0 && min > time[i]){
+                min = time[i];
+                result = i;
+            }
+        }
+        // console.log((data.list[result].main.temp - 273.15));
+        console.log(data.list[result]);
+        console.log("습도 : "+ data.list[result].main.humidity);
+
+        console.log("기 : "+ (data.list[result].main.temp- 273.15));
+        console.log("강수량 : " + (data.list[result].rain));   //undefinded 일대 0으로 처리하기
+        console.log("풍속 : "+ data.list[result].wind.speed );
+        console.log("습도 : "+ data.list[result].main.humidity);
+        console.log("적설량 : "+ data.list[result].snow); //undefind 일때 0으로 처리하
+        var x = (data.list[result].main.temp- 273.15)-(100-data.list[result].main.humidity)/5;
+        console.log("이슬점 : "+ x);
+    }
+})
+
 var markers=[];
 function showsido(first) {
     var valname = first.options[first.selectedIndex].text;
@@ -157,9 +206,11 @@ function displayPlaces(places) {
             itemEl.onclick = function(){
                 // 지도 중심을 부드럽게 이동시킵니다
                 // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-                console.log(point_y,point_x);
+                // console.log(point_y,point_x);
+                console.log((places[i].x));
                 map.setLevel(3);
                 panTo(point_y,point_x);
+
              }
             itemEl.onmouseover =  function () {
                 // displayInfowindow(marker, title);
