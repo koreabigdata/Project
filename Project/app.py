@@ -411,7 +411,14 @@ app_1 = DispatcherMiddleware(app, {
 
 @app.route('/predict')
 def predict():
-    loading_model()
+    # loading_model()
+    #
+    # names = request.form
+    # # names = json.loads(names)
+    #
+    # weather_value = []
+    # for i in names:
+    #     weather_value[i] = float(names[i])
 
     with graph.as_default():
         x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
@@ -420,21 +427,15 @@ def predict():
     return "The predicted class of given weather is "+str(preds)
 
 
-# @app.route('/weather', methods=['GET'])
-# def get_javascript_data():
-#     print("유유");
-#     if request.method == 'GET':
-#         names = request.get_json()
-#         for name in names:
-#             print(name)
-#     return '', 200
 
 @app.route('/weather', methods=['GET','POST'])
 def get_post_javascript_data():
     names = request.form
-    # names = json.dumps(names)
-    # print(names)
+    #names = json.loads(names)
+
     return names
+
+
 
 if __name__ == '__main__':
     loading_model()

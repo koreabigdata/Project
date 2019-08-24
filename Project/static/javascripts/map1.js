@@ -14,7 +14,7 @@
 // var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat=37.544144&lon=127.207846&appid=67d8b1d584e1f82bb3207d448c26715c";
 var weatherdata=[];
 
-function weather(lat, lon){
+function weather_func(lat, lon){
     var time =[];
 
     console.log(lat, lon);
@@ -84,15 +84,20 @@ function weather(lat, lon){
             //
             // console.log("=====================");
 
-            weatherdata = data;
-
+            var temp =(data.list[result].main.temp)- 273.15;
+            var humidity =data.list[result].main.humidity;
+            var rain = data.list[result].rain;
+            var speed =data.list[result].wind.speed;
+            var snow =data.list[result].snow;
+            var dew =(data.list[result].main.temp- 273.15)-(100-data.list[result].main.humidity)/5;
+            weather = {temp, humidity, rain, speed, snow, dew};
 
             $.post("/weather", {
-                // dataType: "json",
-                names: weatherdata,
+                names: weather,
             }, function (data) {
                 console.log(data);
             });
+
         }
     });
 }
@@ -213,7 +218,7 @@ function displayPlaces(places) {
             lat = places[i].y;
             lon = places[i].x
 
-            weather(lat, lon);
+            weather_func(lat, lon);
 
             globaldata.push(places[i]);
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
@@ -267,7 +272,7 @@ function displayPlaces(places) {
                 lat = point_y;
                 lon = point_x;
 
-                weather(lat, lon);
+                weather_func(lat, lon);
                 map.setLevel(3);
                 panTo(point_y,point_x);
 
