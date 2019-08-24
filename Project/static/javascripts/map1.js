@@ -1,5 +1,4 @@
 
-
 // console.log(timestamp);
 //
 //
@@ -13,13 +12,15 @@
 // var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&appid="+appid;
 
 // var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat=37.544144&lon=127.207846&appid=67d8b1d584e1f82bb3207d448c26715c";
-
+var weatherdata=[];
 
 function weather(lat, lon){
     var time =[];
+
     console.log(lat, lon);
     // var lat = 37.544144;
     // var lon = 127.207846;
+
     timestamp = new Date().getTime();
     var appid = "67d8b1d584e1f82bb3207d448c26715c";
     var apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&appid="+appid;
@@ -28,15 +29,15 @@ function weather(lat, lon){
         dataType: "json",
         type: "GET",
         async: "false",
-        success: function(data) {
+        success: function (data) {
 
             var min = timestamp;
             var result;
-            for(var i=0 ; i< 40 ; i++){
+            for (var i = 0; i < 40; i++) {
 
                 time[i] = timestamp - data.list[i].dt;
 
-                if(time[i] > 0 && min > time[i]){
+                if (time[i] > 0 && min > time[i]) {
                     min = time[i];
                     result = i;
                 }
@@ -45,47 +46,55 @@ function weather(lat, lon){
             // console.log(data.list[result].city);
             // console.log(data.list[result]);
 
-            if((data.list[result].rain) == undefined){
+            if ((data.list[result].rain) == undefined) {
                 data.list[result].rain = 0;
                 // console.log(data.list[result].rain);
-            }else if((data.list[result].rain["1h"]) == undefined){
-                if(data.list[result].rain["3h"] == undefined){
+            } else if ((data.list[result].rain["1h"]) == undefined) {
+                if (data.list[result].rain["3h"] == undefined) {
                     data.list[result].rain = 0;
                     // console.log(data.list[result].rain);
-                }else {
+                } else {
                     data.list[result].rain = data.list[result].rain["3h"];
                     // console.log(data.list[result].rain);
                 }
             }
 
-            if((data.list[result].snow) == undefined){
+            if ((data.list[result].snow) == undefined) {
                 data.list[result].snow = 0;
                 // console.log(data.list[result].snow);
-            }else if((data.list[result].snow["1h"]) == undefined){
-                if(data.list[result].snow["3h"] == undefined){
+            } else if ((data.list[result].snow["1h"]) == undefined) {
+                if (data.list[result].snow["3h"] == undefined) {
                     data.list[result].snow = 0;
                     // console.log(data.list[result].snow);
-                }else {
+                } else {
                     data.list[result].snow = data.list[result].snow["3h"];
                     // console.log(data.list[result].snow);
                 }
             }
+            //
+            // console.log("습도 : "+ data.list[result].main.humidity);
+            //
+            // console.log("기온 : "+ (data.list[result].main.temp- 273.15));
+            // console.log("강수량 : " +(data.list[result].rain));
+            // console.log("풍속 : "+ data.list[result].wind.speed );
+            // console.log("습도 : "+ data.list[result].main.humidity);
+            // console.log("적설량 : "+ data.list[result].snow);
+            // var x = (data.list[result].main.temp- 273.15)-(100-data.list[result].main.humidity)/5;
+            // console.log("이슬점 : "+ x);
+            //
+            // console.log("=====================");
+
+            weatherdata = data;
 
 
-
-            console.log("습도 : "+ data.list[result].main.humidity);
-
-            console.log("기 : "+ (data.list[result].main.temp- 273.15));
-            console.log("강수량 : " +(data.list[result].rain));
-            console.log("풍속 : "+ data.list[result].wind.speed );
-            console.log("습도 : "+ data.list[result].main.humidity);
-            console.log("적설량 : "+ data.list[result].snow);
-            var x = (data.list[result].main.temp- 273.15)-(100-data.list[result].main.humidity)/5;
-            console.log("이슬점 : "+ x);
-
-            console.log("=====================");
+            $.post("/weather", {
+                // dataType: "json",
+                names: weatherdata,
+            }, function (data) {
+                console.log(data);
+            });
         }
-    })
+    });
 }
 
 var markers=[];

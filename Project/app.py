@@ -13,6 +13,7 @@ import copy
 from dash.dependencies import ClientsideFunction,Input,Output
 import plotly.graph_objects as go
 import datetime as dt
+import json
 
 app = Flask(__name__)
 dash_app = dash.Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}], server=app, url_base_pathname='/analysis/')
@@ -418,6 +419,22 @@ def predict():
         preds = model.predict_classes(x)
     return "The predicted class of given weather is "+str(preds)
 
+
+# @app.route('/weather', methods=['GET'])
+# def get_javascript_data():
+#     print("유유");
+#     if request.method == 'GET':
+#         names = request.get_json()
+#         for name in names:
+#             print(name)
+#     return '', 200
+
+@app.route('/weather', methods=['GET','POST'])
+def get_post_javascript_data():
+    names = request.form
+    # names = json.dumps(names)
+    # print(names)
+    return names
 
 if __name__ == '__main__':
     loading_model()
