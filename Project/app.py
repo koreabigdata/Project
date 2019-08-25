@@ -1,5 +1,5 @@
 import flask
-from flask import Flask,render_template, request
+from flask import Flask,render_template, request, redirect, url_for
 import dash
 import numpy as np
 import tensorflow as tf
@@ -13,12 +13,16 @@ import copy
 from dash.dependencies import ClientsideFunction,Input,Output
 import plotly.graph_objects as go
 import datetime as dt
+import ast
 import json
+from multiprocessing import Value
 
+counter = Value('i',0)
 app = Flask(__name__)
 dash_app = dash.Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}], server=app, url_base_pathname='/analysis/')
 #dash_app.layout = html.Div([html.H1('Hi there, I am app1 for dashboards')])
 model = None
+#list2append=[]
 
 #defining path
 PATH = Path(__file__).parent
@@ -127,7 +131,7 @@ dash_app.layout = html.Div(
                     [
                         html.A(
                             html.Button("Back", id="learn-more-button"),
-                            href="http://127.0.0.1:5000",
+                            href="/",
                         )
                     ],
                     className="one-third column",
@@ -398,6 +402,7 @@ loading_model()
 @app.route('/')
 @app.route('/<task>')
 def hello_world(task=''):
+    print(task)
     return render_template('index.html', task=task)
 
 @app.route('/analysis/')
@@ -409,33 +414,74 @@ app_1 = DispatcherMiddleware(app, {
 })
 
 
-@app.route('/predict')
-def predict():
-    # loading_model()
-    #
-    # names = request.form
-    # # names = json.loads(names)
-    #
-    # weather_value = []
-    # for i in names:
-    #     weather_value[i] = float(names[i])
-
+@app.route('/predict/<numpy_array>')
+def predict(numpy_array):
+    loading_model()
+    x = numpy_array
+    x = ast.literal_eval(x)
+#    print(type(x))
+    x = np.array(x)
+#    print(x)
+#    print(type(x))
+#    x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
+    list_value = []
     with graph.as_default():
-        x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
-        x = [[x]]
-        preds = model.predict_classes(x)
-    return "The predicted class of given weather is "+str(preds)
-
-
+        #x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
+#        x = [x]
+        preds = model.predict_proba(x)
+    print(type(preds))
+    for preds_length in range(len(preds)):
+        s1 = preds[preds_length][1] / preds[preds_length][0]
+        s2 = preds[preds_length][2] / preds[preds_length][0]
+        s = s1*0.2 + s2*0.8
+        list_value.append(s)
+    print(preds[0])
+    print(preds[0][1])
+    return redirect(url_for("hello_world",task=list_value))
 
 @app.route('/weather', methods=['GET','POST'])
 def get_post_javascript_data():
+#    list2append=[]
+    with counter.get_lock():
+        counter.value += 1
+#    names = None
+#    if request.method == "POST":
     names = request.form
-    #names = json.loads(names)
 
-    return names
+#    names = request.args.getlist("data")
+#    names = json.load(names)
+    names = dict(names)
+#    print(type(names))
+#    print(names)
+#    list1 = np.array(list(names.values()), dtype=float)
+    list1 = list(names.values())
+    max_length = int(list1.pop())
+    list2 = []
+    list2_temp = []
+    confirmed_list = []
+    for row_num in range(int(len(list1)/6)):
+        list2_temp = list1[0+6*row_num:6+6*row_num]
+        list2_temp = np.array(list2_temp, dtype=float)
+        list2.append(list2_temp)
+        if len(list2) == max_length:
+            confirmed_list = np.array(list2)
+    print("checking list2_temp: ", list2_temp)
+    a = confirmed_list.tolist()
+    print("checking list 2:", list2)
+#    print("checking list confirmed list : ", confirmed_list)
+#    list2append.append(list1)
 
+#    print(counter.value)
+#    if counter.value >= 15:
+#        n = 15 * int(counter.value / 15)
+#        new_list = list2append[n:]
+#    else:
+#        new_list = list2append
+#    print(new_list)
+    if confirmed_list != []:
 
+        print("confirmed")
+        return redirect(url_for('predict', numpy_array=a))
 
 if __name__ == '__main__':
     loading_model()
