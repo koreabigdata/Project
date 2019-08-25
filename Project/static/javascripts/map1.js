@@ -69,8 +69,10 @@ function weather_func(lat, lon){
                     names: weather_array,
                     max_list:lat.length,
                 }, function (data) {
-                    console.log(data);
+
                 });
+
+                console.log(data);
     //            console.log(weather_1)
     //            console.log(weather_array[k]);
                 //console.log(weather_array);
@@ -79,6 +81,7 @@ function weather_func(lat, lon){
 
         });
                 };
+
   //  };
 
 
