@@ -402,7 +402,7 @@ loading_model()
 @app.route('/')
 @app.route('/<task>')
 def hello_world(task=''):
-    print(task)
+    print("printing task: ",task)
     return render_template('index.html', task=task)
 
 @app.route('/analysis/')
@@ -437,7 +437,7 @@ def predict(numpy_array):
         list_value.append(s)
     print(preds[0])
     print(preds[0][1])
-    return redirect(url_for("hello_world",task=list_value))
+    return redirect(url_for("hello_world",predict=list_value))
 
 @app.route('/weather', methods=['GET','POST'])
 def get_post_javascript_data():
@@ -452,10 +452,14 @@ def get_post_javascript_data():
 #    names = json.load(names)
     names = dict(names)
 #    print(type(names))
-#    print(names)
+    print(names)
 #    list1 = np.array(list(names.values()), dtype=float)
     list1 = list(names.values())
     max_length = int(list1.pop())
+    minus_index = (-1)*max_length
+    mountain_list = list1[minus_index:]
+    list1 = list1[:minus_index]
+    print(mountain_list)
     list2 = []
     list2_temp = []
     confirmed_list = []
@@ -478,10 +482,43 @@ def get_post_javascript_data():
 #    else:
 #        new_list = list2append
 #    print(new_list)
+    loading_model()
+    with graph.as_default():
+        #x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
+#        x = [x]
+        preds = model.predict_proba(confirmed_list)
+    print(preds)
+
+    list_value = []
+    for preds_length in range(len(preds)):
+        s1 = preds[preds_length][1] / preds[preds_length][0]
+        s2 = preds[preds_length][2] / preds[preds_length][0]
+        s = s1 * 0.2 + s2 * 0.8
+        list_value.append(s)
+    print(list_value)
+    list_weight = []
+    df_mountains = pd.read_csv(DATA_PATH.joinpath("mountain_weight.csv"))
+    for items in mountain_list:
+        if len(df_mountains.loc[df_mountains['인접산']==items,"weight"].values) == 0:
+            list_weight.append(0.018298748185446165)
+        else:
+            list_weight.append(df_mountains.loc[df_mountains['인접산']==items,"weight"].values[0])
+    print(list_weight)
+    array1 = np.array(list_value)
+    array2 = np.array(list_weight)
+    result_array = array1*array2
+    minval = 0.00035494672381888403
+    maxval = 41.753419663213286
+    result_array = (result_array - minval)/(maxval - minval)
+    print(result_array)
+    result1 = result_array.tolist()
     if confirmed_list != []:
 
         print("confirmed")
-        return redirect(url_for('predict', numpy_array=a))
+        #return redirect(url_for('predict', numpy_array=a))
+    return redirect(url_for('hello_world', task=result1))
+
+
 
 if __name__ == '__main__':
     loading_model()

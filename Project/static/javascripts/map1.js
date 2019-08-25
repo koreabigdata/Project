@@ -1,10 +1,11 @@
-var weatherdata=[];
 var selectedOverlay = null;
-
-function weather_func(lat, lon){
+var weatherinfo = [];
+function weather_func(lat, lon,mountain){
     var time =[];
     var weather_array = new Array();
-//    console.log(lat);
+    var moutain_obj = Object.assign({},mountain);
+
+   // console.log(lat,lon);
     timestamp = new Date().getTime();
     for ( var k=0; k<lat.length; k++ ) {
         var appid = "67d8b1d584e1f82bb3207d448c26715c";
@@ -58,18 +59,23 @@ function weather_func(lat, lon){
                 var speed = data.list[result].wind.speed;
                 var snow = data.list[result].snow;
                 var dew = (data.list[result].main.temp - 273.15) - (100 - data.list[result].main.humidity) / 5;
-                var weather_1 = {temp, humidity, rain, speed, snow, dew};
+                var main = data.list[result].weather[0].main;
+                var weather_1 = {temp, rain,  speed, humidity, dew, snow};
+                var weather_2 ={temp, rain,  speed, humidity, dew, snow, main };
                 //weather_array[k] = weather_1;
                 //weather_array.splice(k,0,weather_1);
                 weather_array.push(weather_1);
-
+                // console.log(temp);
                 //weather_array[counter] = weather_1;
                 //counter++;
+                weatherinfo.push(weather_2);
+                // console.log(data.list[result].weather[0].main);
                 $.post("/weather", {
                     names: weather_array,
+                    mountains : moutain_obj,
                     max_list:lat.length,
                 }, function (data) {
-                    console.log(data);
+                    // console.log(data);
                 });
     //            console.log(weather_1)
     //            console.log(weather_array[k]);
@@ -86,6 +92,7 @@ function weather_func(lat, lon){
 
 var markers=[];
 function showsido(first) {
+    weatherinfo = [];
     var valname = first.options[first.selectedIndex].text;
     ps.keywordSearch(valname + ' 산', placesSearchCB,{
         category_group_code: "AT4",
@@ -95,6 +102,7 @@ function showsido(first) {
 }
 
 function showsigungu(sigun) {
+    weatherinfo = [];
     var first = document.getElementById('selOne');
     var valname = first.options[first.selectedIndex].text;
     var sigun = sigun.options[sigun.selectedIndex].text;
@@ -180,7 +188,7 @@ function placesSearchCB(data, status, pagination) {
 }
 
 function displayPlaces(places) {
-
+    // weatherinfo=[];
     var listEl = document.getElementById('name_ul'),
     menuEl = document.getElementById('menu_wrap'),
     fragment = document.createDocumentFragment(),
@@ -198,8 +206,10 @@ function displayPlaces(places) {
     var dangers = [99, 20, 54, 75, 91, 10, 55, 24, 35, 75, 85, 64, 53, 1, 99];
 
     for ( var i=0; i<places.length; i++ ) {
+
             lat = places[i].y;
             lon = places[i].x;
+            // weather_func(lat,lon);
             latList[i] = places[i].y;
             lonList[i] = places[i].x;
             mountain_name[i] = places[i].place_name;
@@ -219,7 +229,7 @@ function displayPlaces(places) {
         //익명 즉시실행함수
         //https://beomy.tistory.com/9 참고
 
-        (function(marker, title, places) {
+        (function(marker, title, places,i) {
 
             //리스트에서 선택한 지점의 위도경도
             //itemEl에서 x,y가 정의되어 있지않다해서 다른 변수사용.
@@ -242,7 +252,7 @@ function displayPlaces(places) {
                 // focusmap(marker,title);
             });
             kakao.maps.event.addListener(marker, 'click', function() {
-                displayOverlay(marker, title, places['address_name']);
+                displayOverlay(marker, title, places['address_name'],i);
             });
 
             itemEl.onclick = function(){
@@ -253,18 +263,18 @@ function displayPlaces(places) {
                 map.setLevel(3);
                 // overlay(map);
                 panTo(point_y,point_x);
-                displayOverlay(marker, title, places['address_name']);
+                displayOverlay(marker, title, places['address_name'],i);
                 // overlay.setMap(map);
              }
              itemEl.onmouseover = function(){
-                displayOverlay(marker, title, places['address_name']);
+                displayOverlay(marker, title, places['address_name'],i);
              }
              itemEl.onmouseout = function(){
                 selectedOverlay.setMap(null)
              }
 
 
-        })(marker,  places[i].place_name , places[i]);
+        })(marker,  places[i].place_name , places[i],i);
         // console.log(places[i].x, places[i].y);
         fragment.appendChild(itemEl);
     }
@@ -275,8 +285,9 @@ function displayPlaces(places) {
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     map.setBounds(bounds);
-    weather_func(latList, lonList);
-    get_mountain(mountain_name);
+    weather_func(latList, lonList,mountain_name);
+    // console.log(weatherinfo);
+    // get_mountain(mountain_name);
 }
 
 function removeMarker() {
@@ -334,7 +345,9 @@ function addMarker(position, idx, list) {
     return marker;
 }
 
-function displayOverlay(marker, place_name, sub_place=null) {
+function displayOverlay(marker, place_name, sub_place=null,index) {
+    // console.log(index);
+    // console.log(weatherinfo[index-1]);
 var content = '<style>\n' +
     '.wrap {position: absolute;left: 0;bottom: 30px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: \'Malgun Gothic\', dotum, \'돋움\', sans-serif;line-height: 1.5;}\n' +
     '.wrap * {padding: 0;margin: 0;}\n'+
@@ -361,7 +374,12 @@ var content = '<style>\n' +
             '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
             '           </div>' +
             '            <div class="desc">' +
-            '                <div class="ellipsis" id="sub">'+sub_place +'</div>' +
+            // '                <div class="ellipsis" id="sub">'+sub_place +'</div>' +
+            '                <div class="ellipsis" id="sub">'+"온도 : " +weatherinfo[index].temp.toFixed(1) +'</div>' +
+                            '<div class="ellipsis" id="sub">'+"습도 : " + weatherinfo[index].humidity +'</div>' +
+                            '<div class="ellipsis" id="sub">'+"강수량 : "+weatherinfo[index].rain +'</div>' +
+                            '<div class="ellipsis" id="sub">'+"날씨 : "+weatherinfo[index].main +'</div>' +
+    // '                        <div class="ellipsis" id="sub">'+sub_place +'</div>' +
             '            </div>' +
             '        </div>' +
             '    </div>' +
@@ -426,6 +444,7 @@ function displayPagination(pagination) {
                 return function() {
 
                     //placesSearchCB 재호출
+                    weatherinfo=[];
                     pagination.gotoPage(i);
                 }
             })(i);
