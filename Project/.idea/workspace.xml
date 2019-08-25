@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="86dad170-66f2-4f56-97bd-e4c2fab4fc56" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/javascripts/hi.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/javascripts/hi.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/javascripts/map1.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/javascripts/map1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/santa_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/santa_logo1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +31,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -46,6 +44,7 @@
       <recent name="C:\Users\BaeSungjin\PycharmProjects\untitled1\static" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/static/javascripts" />
     </key>
   </component>
@@ -127,7 +126,7 @@
       <workItem from="1566645947930" duration="4800000" />
       <workItem from="1566651811446" duration="105000" />
       <workItem from="1566709066016" duration="14297000" />
-      <workItem from="1566737585120" duration="3759000" />
+      <workItem from="1566737585120" duration="5072000" />
     </task>
     <servers />
   </component>

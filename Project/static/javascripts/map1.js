@@ -62,6 +62,7 @@ function weather_func(lat, lon){
                 //weather_array[k] = weather_1;
                 //weather_array.splice(k,0,weather_1);
                 weather_array.push(weather_1);
+
                 //weather_array[counter] = weather_1;
                 //counter++;
                 $.post("/weather", {
@@ -77,45 +78,10 @@ function weather_func(lat, lon){
             }
 
         });
-        //weather_array[k] = weather_1;
-
-
-//        if (k == (lat.length-1)){
-//                    console.log(weather_array);
-//                    var weather_obj = {...weather_array};
-//                    console.log(weather_obj);
-//                    $.post("/weather", {
-//                        data : weather_array[0],
-//                        }, function (data) {
-//                        console.log(data);
-//                        });
-//                    $.ajax({
-//                        type:"POST",
-//                        url:"/weather",
-//                        contentType:"application/json",
- //                       data : weather_obj,
- //                       async:true,
-
-  //                  })
                 };
   //  };
 
-//    console.log(weather_array);
-//    let weather_json = JSON.stringify(weather_array);
-//    console.log(weather_json);
-//    $.ajax({
-//        type:"POST",
-//        cache: false,
-//        url: "/weather",
-//        data: weather_array
-//    });
-//    $.post("/weather", {
-//        names : weather_json,
-//    }, function (data) {
-//        console.log(data);
-//                        });
 
-//    return weather_array
 }
 
 var markers=[];
@@ -225,15 +191,19 @@ function displayPlaces(places) {
 
     // 지도에 표시되고 있는 마커를 제거합니다
     removeMarker();
+    var latList = new Array();
+    var lonList = new Array();
+    var mountain_name = new Array();
     var address = [];
     var dangers = [99, 20, 54, 75, 91, 10, 55, 24, 35, 75, 85, 64, 53, 1, 99];
 
     for ( var i=0; i<places.length; i++ ) {
             lat = places[i].y;
             lon = places[i].x;
+            latList[i] = places[i].y;
+            lonList[i] = places[i].x;
+            mountain_name[i] = places[i].place_name;
 
-            weather_func(lat, lon);
-            place_global.push(places[i]);
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
             marker = addMarker(placePosition, i, dangers[i]),
             itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
@@ -305,6 +275,8 @@ function displayPlaces(places) {
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     map.setBounds(bounds);
+    weather_func(latList, lonList);
+    get_mountain(mountain_name);
 }
 
 function removeMarker() {
