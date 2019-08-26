@@ -1,4 +1,7 @@
-
+function myFunc(vars) {
+    console.log(vars);
+    return vars
+}
 var selectedOverlay = null;
 var weatherinfo = [];
 function weather_func(lat, lon,mountain){
@@ -61,9 +64,10 @@ function weather_func(lat, lon,mountain){
                 var snow = data.list[result].snow;
                 var dew = (data.list[result].main.temp - 273.15) - (100 - data.list[result].main.humidity) / 5;
                 var main = data.list[result].weather[0].main;
-
+                var icon = data.list[result].weather[0].icon;
                 var weather_1 = {temp, rain,  speed, humidity, dew, snow};
-                var weather_2 ={temp, rain,  speed, humidity, dew, snow, main };
+                var weather_2 ={temp, rain,  speed, humidity, dew, snow, main, icon};
+
                 //weather_array[k] = weather_1;
                 //weather_array.splice(k,0,weather_1);
                 weather_array.push(weather_1);
@@ -351,18 +355,18 @@ function displayOverlay(marker, place_name, sub_place=null,index) {
     // console.log(index);
     // console.log(weatherinfo[index-1]);
 var content = '<style>\n' +
-    '.wrap {position: absolute;left: 0;bottom: 30px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: \'Malgun Gothic\', dotum, \'돋움\', sans-serif;line-height: 1.5;}\n' +
+    '.wrap {position: absolute;border-radius:20px;left: 0;bottom: 30px;width: 288px;height: 180px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: \'Malgun Gothic\', dotum, \'돋움\', sans-serif;line-height: 1.5;}\n' +
     '.wrap * {padding: 0;margin: 0;}\n'+
-    '.wrap .info_overlay {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}\n' +
+    '.wrap .info_overlay {border-radius:10;width: 286px;height: 200px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: visible!important;background: #fff;}\n' +
     '.wrap .info_overlay:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}\n' +
-    '.info_overlay .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 16px;font-weight: bold;}\n' +
+    '.info_overlay .title {text-align:center;padding: 5px 0 0 10px;height: 30px;background: #323232;color: white;border-bottom: 1px solid #ddd;font-size: 16px;font-weight: bold;}\n' +
     '.info_overlay .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url("/static/overlay_close.png");}\n'+
     '.info_overlay .close:hover {cursor: pointer;}\n'+
-    '.info_overlay .body {position: relative;overflow: hidden;}\n'+
-    '.info_overlay .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}\n'+
-    '.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}\n'+
-    '.desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}\n'+
-    '.info_overlay .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}\n'+
+    '.info_overlay .body {position: relative;font-size: 1.2em;text-align: center;}\n'+
+    '.info_overlay .desc {position: relative;margin: 30px 0 0 90px;height: 75px;}\n'+
+    '.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; margin-top: 0.2em;}\n'+
+    '.desc .jibun {font-size: 11px;font-weight:100px;color: #888;margin-top: -2px;}\n'+
+    '.info_overlay .img {margin-left: 2em;r;position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}\n'+
     '.info_overlay:after {content: \'\';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url("/static/vertex_white.png");}\n'+
     '.info_overlay .link {color: #5085BB;}\n' +
     '</style>' +
@@ -373,13 +377,13 @@ var content = '<style>\n' +
             '        </div>' +
             '        <div class="body">' +
             '            <div class="img">' +
-            '                <img src=  width="73" height="70">' +
+            '               <img src="/static/weather/'+ weatherinfo[index].icon + '.png" width="73" height="70">' +
             '           </div>' +
             '            <div class="desc">' +
             // '                <div class="ellipsis" id="sub">'+sub_place +'</div>' +
-            '                <div class="ellipsis" id="sub">'+"온도 : " +weatherinfo[index].temp.toFixed(1) +'</div>' +
-                            '<div class="ellipsis" id="sub">'+"습도 : " + weatherinfo[index].humidity +'</div>' +
-                            '<div class="ellipsis" id="sub">'+"강수량 : "+weatherinfo[index].rain +'</div>' +
+            '                <div class="ellipsis" id="sub">'+"온도 : " +weatherinfo[index].temp.toFixed(1) +"℃"+'</div>' +
+                            '<div class="ellipsis" id="sub">'+"습도 : " + weatherinfo[index].humidity +"%"+'</div>' +
+                            '<div class="ellipsis" id="sub">'+"강수량 : "+weatherinfo[index].rain +"mm"+'</div>' +
                             '<div class="ellipsis" id="sub">'+"날씨 : "+weatherinfo[index].main +'</div>' +
     // '                        <div class="ellipsis" id="sub">'+sub_place +'</div>' +
             '            </div>' +

@@ -109,7 +109,7 @@ select::-ms-expand {
 
     <div class = "container-fluid">
 {#        <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>#}
-        <div id="map" style='height:90vh;'> </div>
+        <div id="map" style='height:100vh;'> </div>
 {#        <img src="/static/menu.png" style="width:70px;height:250px;position: relative; top: 40%;left:1%;z-index:10;">#}
         <div id = "menu_wrap" class="vertical-nav">
             <div class="row" id="region_select">
@@ -135,16 +135,25 @@ select::-ms-expand {
                         <option value="43">  충청북도  </option>
                     </select>
                 </div>
+
                 <div class="col">
                     <select name="selTwo" id="selTwo" onchange="showsigungu(this)">
                         <option style="color: white" value="default">---시,군,구---</option>
                     </select>
                 </div>
+
+                <script type="text/javascript">
+                    function test_func(data) {
+                        console.log(data);
+                    }
+                    test_func({{ data|safe }})
+                </script>
             </div>
             <br>
             <hr>
             <div id="name"><ul id="name_ul"></ul>
             <div id="pagination"></div></div>
+
 {#           page#}
 
         </div>
