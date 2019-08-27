@@ -8,6 +8,7 @@ var global_mountain = new Array();
 var weather_array = new Array();
 var global_lat = 0;
 var global_dangerous = new Array();
+var haha = [];
 function weather_func(lat, lon,mountain){
     var time =[];
     // var weather_array = new Array();
@@ -100,12 +101,15 @@ function weather_func(lat, lon,mountain){
                     dangerous = dangerous.replace('[','');
                     dangerous = dangerous.replace(']','');
                     dangerous = dangerous.split(',');
-                    for(var i in dangerous){
+                    for(var i=0 in dangerous){
                         // dangerous = data.replace('[','');
                         dangerous[i] = Number(dangerous[i]);
+                        console.log(typeof(dangerous[i]));
                         global_dangerous.push(dangerous[i]);
-
+                        console.log(typeof(global_dangerous[i]));
                     }
+                    console.log(global_dangerous[0]);
+                    console.log(typeof(global_dangerous));
                     console.log(global_dangerous);
                 });
 
@@ -231,15 +235,28 @@ function displayPlaces(places) {
     var mountain_name = new Array();
     var address = [];
     // var dangers = [99, 20, 54, 75, 91, 10, 55, 24, 35, 75, 85, 64, 53, 1, 99];
-
+    for ( var i =0 ; i<places.length; i++){
+        latList[i] = places[i].y;
+        lonList[i] = places[i].x;
+        mountain_name[i] = places[i].place_name;
+    }
+    console.log(latList);
+    console.log(lonList);
+    console.log(mountain_name);
+    // console.log(Array(global_dangerous));
+    weather_func(latList, lonList,mountain_name);
+    // global_dd = global_dangerous;
+    console.log(Array(global_dangerous));
     for ( var i=0; i<places.length; i++ ) {
 
             lat = places[i].y;
             lon = places[i].x;
+
             // weather_func(lat,lon);
             latList[i] = places[i].y;
             lonList[i] = places[i].x;
             mountain_name[i] = places[i].place_name;
+
 
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
             marker = addMarker(placePosition, i),
@@ -315,13 +332,14 @@ function displayPlaces(places) {
     // });
 
     // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
-
+    // weather_func(latList, lonList,mountain_name);
+    // console.log(global_dangerous);
     listEl.appendChild(fragment);
     menuEl.scrollTop = 0;
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     map.setBounds(bounds);
-    weather_func(latList, lonList,mountain_name);
+
     // console.log(weatherinfo);
     // get_mountain(mountain_name);
 }
@@ -353,10 +371,17 @@ function getListItem(index, places) {
 }
 
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-function addMarker(position, idx) {
+function addMarker(position, idx,global_dd) {
     var url1=null;
-    console.log(idx);
-    console.log(global_dangerous);
+    // console.log(Array(global_dangerous));
+    // console.log(global_dangerous[idx].);
+    console.log(global_dangerous.valueOf(0));
+    // console.log(typeof (global_dangerous));
+    // console.log(global_dangerous[0]);
+    // var keys = Object.values(global_dangerous);
+    // console.log(keys[0]);
+    // console.log(typeof (keys));
+
     if(global_dangerous[idx] < 50){
         url1 =  '/static/green.png'
     }else if(global_dangerous[idx]>=50 &&global_dangerous[idx] < 70 ){
