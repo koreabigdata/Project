@@ -33,6 +33,8 @@ df = pd.read_csv(DATA_PATH.joinpath("data_3.csv"), low_memory=False, encoding="u
 df_pie = pd.read_csv(DATA_PATH.joinpath("pieplot.csv"), encoding="cp949")
 df["report_time"] = pd.to_datetime(df["report_time"])
 
+df_rank = pd.read_csv(DATA_PATH.joinpath("score_data1.csv"), low_memory=False, encoding="utf8")
+
 # data_loc
 loc_statuses_dict = dict(서울특별시="서울특별시", 강원도="강원도", 경상남도="경상남도",
                          경상북도="경상북도", 광주광역시="광주광역시",대구광역시 ="대구광역시",
@@ -516,9 +518,14 @@ def get_post_javascript_data():
         print("confirmed")
         #return redirect(url_for('predict', numpy_array=a))
     print("result1", result1)
-    result1 = str(result1)
-    print(type(result1))
-    return result1
+    # result1 = str(result1)
+    # print(type(result1))
+
+    temp_rk = df_rank["mns"].append(pd.Series(result1), ignore_index=True).rank(pct=True, ascending=False)[-15:]
+    temp_rk = round(temp_rk*100,2).to_list()
+    print(temp_rk)
+    temp_rk = str(temp_rk)
+    return temp_rk
 
 if __name__ == '__main__':
     loading_model()

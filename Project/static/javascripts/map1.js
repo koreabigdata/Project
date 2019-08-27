@@ -7,6 +7,7 @@ var weatherinfo = [];
 var global_mountain = new Array();
 var weather_array = new Array();
 var global_lat = 0;
+var global_dangerous = new Array();
 function weather_func(lat, lon,mountain){
     var time =[];
     // var weather_array = new Array();
@@ -93,6 +94,19 @@ function weather_func(lat, lon,mountain){
                     max_list:lat.length,
                 }, function (data) {
                     console.log(data);
+                    var dangerous = data;
+                    var x = '123';
+                    dangerous = String(dangerous);
+                    dangerous = dangerous.replace('[','');
+                    dangerous = dangerous.replace(']','');
+                    dangerous = dangerous.split(',');
+                    for(var i in dangerous){
+                        // dangerous = data.replace('[','');
+                        dangerous[i] = Number(dangerous[i]);
+                        global_dangerous.push(dangerous[i]);
+
+                    }
+                    console.log(global_dangerous);
                 });
 
             }
@@ -216,7 +230,7 @@ function displayPlaces(places) {
     var lonList = new Array();
     var mountain_name = new Array();
     var address = [];
-    var dangers = [99, 20, 54, 75, 91, 10, 55, 24, 35, 75, 85, 64, 53, 1, 99];
+    // var dangers = [99, 20, 54, 75, 91, 10, 55, 24, 35, 75, 85, 64, 53, 1, 99];
 
     for ( var i=0; i<places.length; i++ ) {
 
@@ -228,7 +242,7 @@ function displayPlaces(places) {
             mountain_name[i] = places[i].place_name;
 
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-            marker = addMarker(placePosition, i, dangers[i]),
+            marker = addMarker(placePosition, i),
             itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
             // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
             // LatLngBounds 객체에 좌표를 추가합니다
@@ -339,13 +353,15 @@ function getListItem(index, places) {
 }
 
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-function addMarker(position, idx, list) {
+function addMarker(position, idx) {
     var url1=null;
-    if(list < 25){
+    console.log(idx);
+    console.log(global_dangerous);
+    if(global_dangerous[idx] < 50){
         url1 =  '/static/green.png'
-    }else if(list>=25 &&list < 50 ){
+    }else if(global_dangerous[idx]>=50 &&global_dangerous[idx] < 70 ){
         url1 = '/static/yellow.png'
-    }else if(list >=50 && list <75){
+    }else if(global_dangerous[idx] >=70 && global_dangerous[idx] <90){
         url1= '/static/orange.png'
     }else{
         url1='/static/red.png'
