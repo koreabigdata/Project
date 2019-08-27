@@ -72,14 +72,14 @@ select::-ms-expand {
 </head>
 <script type="text/javascript">
 var bDisplay = true;
-{#function doDisplay(){#}
-{#    var con = document.getElementById("myDIV");#}
-{#    if(con.style.display=='none'){#}
-{#        con.style.display = 'block';#}
-{#    }else{#}
-{#        con.style.display = 'none';#}
-{#    }#}
-{#}#}
+function doDisplay(){
+    var con = document.getElementById("myDIV");
+    {#if(con.style.display=='none'){#}
+        con.style.display = 'block';
+    {# }else{#}
+    {#    con.style.display = 'none';#}
+    {# }#}
+}
 </script>
 
 
@@ -98,11 +98,11 @@ var bDisplay = true;
             <li class="nav-item active">
                 <a class="nav-link" href="/analysis">main analysis <span class="sr-only">(current)</span></a>
             </li>
+{#            <li class="nav-item active">#}
+{#                <a class="nav-link" href="menu1.html">How To Use</a>#}
+{#            </li>#}
             <li class="nav-item active">
-                <a class="nav-link" href="menu1.html">How To Use</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="menu2.html">Contact Us</a>
+                <a class="nav-link" href="/menu2">Contact Us</a>
             </li>
         </ul>
 
@@ -116,7 +116,7 @@ var bDisplay = true;
         <div id = "menu_wrap" class="vertical-nav">
             <div class="row" id="region_select">
                 <div class="col">
-                    <select name="selOne" id="selOne" onchange="sidoChange(this, 'selTwo'),showsido(this)">
+                    <select name="selOne" id="selOne" onchange="sidoChange(this, 'selTwo'),showsido(this),doDisplay()">
                         <option style="color:white" value="default">---시,도---</option>
                         <option value="42">  강원도  </option>
                         <option value="41">  경기도  </option>
@@ -140,7 +140,7 @@ var bDisplay = true;
 
                 <div class="col">
 
-                    <select name="selTwo" id="selTwo" onchange="showsigungu(this)">
+                    <select name="selTwo" id="selTwo" onchange="showsigungu(this),doDisplay()">
                         <option style="color: white" value="default">---시,군,구---</option>
                     </select>
 

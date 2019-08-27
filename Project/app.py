@@ -409,6 +409,9 @@ def hello_world(task=''):
 def render_dash():
     return flask.redirect('/dash1')
 
+@app.route('/menu2/')
+def contact_us():
+    return render_template('menu2.html')
 app_1 = DispatcherMiddleware(app, {
     '/dash1' : dash_app.server
 })

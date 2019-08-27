@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="86dad170-66f2-4f56-97bd-e4c2fab4fc56" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/untitled1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/untitled1.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/javascripts/map1.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/javascripts/map1.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/ddd.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/menu2.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/menu2.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -154,7 +154,7 @@
       <workItem from="1566902072051" duration="3489000" />
       <workItem from="1566905768210" duration="6127000" />
       <workItem from="1566914923400" duration="5990000" />
-      <workItem from="1566921675771" duration="11377000" />
+      <workItem from="1566921675771" duration="12904000" />
     </task>
     <servers />
   </component>
