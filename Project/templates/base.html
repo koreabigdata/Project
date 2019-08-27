@@ -137,6 +137,15 @@ select::-ms-expand {
                 </div>
 
                 <div class="col">
+
+                    <form action="/weather" id="frm" method="get">
+
+                        <div>
+                            <input type="button" onclick="get()" value="전송">
+                        </div>
+                    </form>
+
+
                     <select name="selTwo" id="selTwo" onchange="showsigungu(this)">
                         <option style="color: white" value="default">---시,군,구---</option>
                     </select>

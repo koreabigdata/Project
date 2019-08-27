@@ -4,18 +4,23 @@ function myFunc(vars) {
 }
 var selectedOverlay = null;
 var weatherinfo = [];
+var global_mountain = new Array();
+var weather_array = new Array();
+var global_lat = 0;
 function weather_func(lat, lon,mountain){
     var time =[];
-    var weather_array = new Array();
+    // var weather_array = new Array();
     var moutain_obj = Object.assign({},mountain);
 
    // console.log(lat,lon);
+
     timestamp = new Date().getTime();
     for ( var k=0; k<lat.length; k++ ) {
         var appid = "67d8b1d584e1f82bb3207d448c26715c";
         let apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat[k]+"&lon="+lon[k]+"&appid="+appid;
         //var weather_array = new Array();
         let counter = 1;
+
         $.ajax({
             url: apiURI,
             dataType: "json",
@@ -57,6 +62,10 @@ function weather_func(lat, lon,mountain){
                         // console.log(data.list[result].snow);
                     }
                 }
+
+                global_lat = lat;
+                global_mountain.push(moutain_obj);
+
                 var temp = (data.list[result].main.temp) - 273.15;
                 var humidity = data.list[result].main.humidity;
                 var rain = data.list[result].rain;
@@ -76,26 +85,24 @@ function weather_func(lat, lon,mountain){
                 //counter++;
                 weatherinfo.push(weather_2);
                 // console.log(data.list[result].weather[0].main);
+
+
                 $.post("/weather", {
                     names: weather_array,
                     mountains : moutain_obj,
                     max_list:lat.length,
                 }, function (data) {
-                    // console.log(data);
+                    console.log(data);
                 });
-    //            console.log(weather_1)
-    //            console.log(weather_array[k]);
-                //console.log(weather_array);
 
             }
 
         });
-                };
-  //  };
-
+    };
 
 }
 
+console.log(weather_array);
 var markers=[];
 function showsido(first) {
     weatherinfo = [];
@@ -284,8 +291,17 @@ function displayPlaces(places) {
         // console.log(places[i].x, places[i].y);
         fragment.appendChild(itemEl);
     }
+    //
+    // $.post("/weather", {
+    //     names: weather_array,
+    //     mountains : global_mountain,
+    //     max_list:lat.length,
+    // }, function (data) {
+    //     console.log(data);
+    // });
 
     // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
+
     listEl.appendChild(fragment);
     menuEl.scrollTop = 0;
 

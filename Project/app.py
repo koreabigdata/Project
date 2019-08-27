@@ -400,9 +400,7 @@ def loading_model():
 loading_model()
 
 @app.route('/')
-@app.route('/<task>')
 def hello_world(task=''):
-    print("printing task: ",task)
     return render_template('index.html', task=task)
 
 @app.route('/analysis/')
@@ -447,14 +445,15 @@ def get_post_javascript_data():
 #    names = None
 #    if request.method == "POST":
     names = request.form
-
+    print(" names: ",names)
 #    names = request.args.getlist("data")
 #    names = json.load(names)
     names = dict(names)
 #    print(type(names))
-    print(names)
+
 #    list1 = np.array(list(names.values()), dtype=float)
     list1 = list(names.values())
+    print("list1:",list1)
     max_length = int(list1.pop())
     minus_index = (-1)*max_length
     mountain_list = list1[minus_index:]
@@ -516,9 +515,10 @@ def get_post_javascript_data():
 
         print("confirmed")
         #return redirect(url_for('predict', numpy_array=a))
-    return redirect(url_for('hello_world', task=result1))
-
-
+    print("result1", result1)
+    result1 = str(result1)
+    print(type(result1))
+    return result1
 
 if __name__ == '__main__':
     loading_model()
