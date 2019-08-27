@@ -4,21 +4,18 @@ var global_mountain = new Array();
 var weather_array = new Array();
 var global_lat = 0;
 var global_dangerous = [];
-var a=[];
-
 
 function weather_func(lat, lon,mountain){
     var time =[];
-    // var weather_array = new Array();
     var moutain_obj = Object.assign({},mountain);
 
 
 
     timestamp = new Date().getTime();
+
     for ( var k=0; k<lat.length; k++ ) {
         var appid = "0b243535ca956ce7a1a437f965b4be63";
         let apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat[k]+"&lon="+lon[k]+"&appid="+appid;
-        //var weather_array = new Array();
         let counter = 1;
 
         $.ajax({
@@ -77,7 +74,7 @@ function weather_func(lat, lon,mountain){
                 //weather_array[k] = weather_1;
                 //weather_array.splice(k,0,weather_1);
                 weather_array.push(weather_1);
-                console.log(weather_array);
+
                 weatherinfo.push(weather_2);
 
 
@@ -101,7 +98,6 @@ function weather_func(lat, lon,mountain){
                             // dangerous = data.replace('[','');
                             dangerous[i] = Number(dangerous[i]);
 
-                            console.log(dangerous[i]);
                             global_dangerous.push(dangerous[i]);
 
                         }
@@ -118,10 +114,10 @@ function weather_func(lat, lon,mountain){
 
 var markers=[];
 function showsido(first) {
-    weather_array =[];
-    global_dangerous = []
     weatherinfo = [];
-    global_mountain=[];
+    weather_array = [];
+    global_dangerous = [];
+    global_mountain = [];
     var valname = first.options[first.selectedIndex].text;
     ps.keywordSearch(valname + ' 산', placesSearchCB,{
         category_group_code: "AT4",
@@ -131,10 +127,10 @@ function showsido(first) {
 }
 
 function showsigungu(sigun) {
-    global_dangerous = []
-    weather_array =[];
     weatherinfo = [];
-    global_mountain=[];
+    weather_array = [];
+    global_dangerous = [];
+    global_mountain = [];
     var first = document.getElementById('selOne');
     var valname = first.options[first.selectedIndex].text;
     var sigun = sigun.options[sigun.selectedIndex].text;
@@ -177,14 +173,6 @@ function panTo(position_x,position_y) {
     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
     map.panTo(moveLatLon);
 }
-
-// var customOverlay = new kakao.maps.CustomOverlay({
-//     map : map,
-//     position : position,
-//     content : content,
-//     yAnchor : 1
-// });
-
 // 장소 검색 객체를 생성합니다
 
 var ps = new kakao.maps.services.Places();
@@ -193,11 +181,9 @@ var ps = new kakao.maps.services.Places();
 ps.keywordSearch('서울시 산', placesSearchCB,{
         category_group_code: "AT4",
         category_name: "여행 > 관광,명소 > 산"
-    // size : '500'
 });
 
 // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-var place_global = [];
 function placesSearchCB(data, status, pagination) {
 
     if (status === kakao.maps.services.Status.OK) {
@@ -236,17 +222,14 @@ function displayPlaces(places) {
 
     var mountain_name = new Array();
     var address = [];
-    // var dangers = [99, 20, 54, 75, 91, 10, 55, 24, 35, 75, 85, 64, 53, 1, 99];
     for ( var i =0 ; i<places.length; i++){
         latList[i] = places[i].y;
         lonList[i] = places[i].x;
         mountain_name[i] = places[i].place_name;
     }
 
-    // console.log(global_dangerous[0]);
     weather_func(latList, lonList, mountain_name);
-    console.log(global_dangerous);
-    console.log(global_mountain[0]);
+
 
     for ( var i=0; i<places.length; i++ ) {
 
@@ -291,20 +274,13 @@ function displayPlaces(places) {
                 map.setLevel(3);
                 overlay.setMap(map);
                 panTo(point_y,point_x);
-                // displayInfowindow(marker, title);
-                        // p =overlay.setMap(map);
-                // overlay.setMap(map);
 
-                // focusmap(marker,title);
             });
             kakao.maps.event.addListener(marker, 'click', function() {
                 displayOverlay(marker, title, places['address_name'],i);
             });
 
             itemEl.onclick = function(){
-                // lat = point_y;
-                // lon = point_x;
-                // weather(lat, lon);
 
                 map.setLevel(3);
                 // overlay(map);
@@ -324,14 +300,6 @@ function displayPlaces(places) {
 
         fragment.appendChild(itemEl);
     }
-    //
-    // $.post("/weather", {
-    //     names: weather_array,
-    //     mountains : global_mountain,
-    //     max_list:lat.length,
-    // }, function (data) {
-    //     console.log(data);
-    // });
 
     // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
     // weather_func(latList, lonList,mountain_name);
@@ -371,9 +339,8 @@ function getListItem(index, places) {
 }
 
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-function addMarker(position, idx,global_dd) {
-    var url1=null;
-    console.log(global_dangerous.length);
+function addMarker(position, idx) {
+    var url1=null;var url1=null;
     if(global_dangerous[idx] < 50){
         url1 =  '/static/green.png'
     }else if(global_dangerous[idx]>=50 &&global_dangerous[idx] < 70 ){
@@ -397,24 +364,24 @@ function addMarker(position, idx,global_dd) {
 
     marker.setMap(map); // 지도 위에 마커를 표출합니다
     markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
     return marker;
 }
 
 function displayOverlay(marker, place_name, sub_place=null,index) {
-
 var content = '<style>\n' +
-    '.wrap {position: absolute;border-radius:20px;left: 0;bottom: 30px;width: 288px;height: 180px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: \'Malgun Gothic\', dotum, \'돋움\', sans-serif;line-height: 1.5;}\n' +
+    '.wrap {position: absolute;border-radius:20px;left: 0;bottom: 30px;width: 350px;height: 250px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: \'Malgun Gothic\', dotum, \'돋움\', sans-serif;line-height: 1.5;}\n' +
     '.wrap * {padding: 0;margin: 0;}\n'+
-    '.wrap .info_overlay {border-radius:10;width: 286px;height: 200px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: visible!important;background: #fff;}\n' +
+    '.wrap .info_overlay {border-radius:10;width: 350px;height: 250px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: visible!important;background: #fff;}\n' +
     '.wrap .info_overlay:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}\n' +
     '.info_overlay .title {text-align:center;padding: 5px 0 0 10px;height: 30px;background: #323232;color: white;border-bottom: 1px solid #ddd;font-size: 16px;font-weight: bold;}\n' +
-    '.info_overlay .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url("/static/overlay_close.png");}\n'+
+    '.info_overlay .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url("/static/overlay_close1.png");}\n'+
     '.info_overlay .close:hover {cursor: pointer;}\n'+
     '.info_overlay .body {position: relative;font-size: 1.2em;text-align: center;}\n'+
     '.info_overlay .desc {position: relative;margin: 30px 0 0 90px;height: 75px;}\n'+
-    '.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; margin-top: 0.2em;}\n'+
+    '.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; margin-top: 0.2em; font-weight: bolder;}\n'+
     '.desc .jibun {font-size: 11px;font-weight:100px;color: #888;margin-top: -2px;}\n'+
-    '.info_overlay .img {margin-left: 2em;r;position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}\n'+
+    '.info_overlay .img {margin-left: 2em;r;position: absolute;top: 6px;left: 5px;width: 120px;height: 117px;border: 1px solid #ddd;color: #888;overflow: hidden;}\n'+
     '.info_overlay:after {content: \'\';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url("/static/vertex_white.png");}\n'+
     '.info_overlay .link {color: #5085BB;}\n' +
     '</style>' +
@@ -425,14 +392,16 @@ var content = '<style>\n' +
             '        </div>' +
             '        <div class="body">' +
             '            <div class="img">' +
-            '               <img src="/static/weather/'+ weatherinfo[index].icon + '.png" width="73" height="70">' +
+                '               <img src="/static/weather/'+ weatherinfo[index].icon + '.png" width="120" height="117">' +
             '           </div>' +
             '            <div class="desc">' +
-            // '                <div class="ellipsis" id="sub">'+sub_place +'</div>' +
+            // '                <div class="ellipsis" id="sub">'+"상세주소 :" + sub_place +'</div>' +
             '                <div class="ellipsis" id="sub">'+"온도 : " +weatherinfo[index].temp.toFixed(1) +"℃"+'</div>' +
                             '<div class="ellipsis" id="sub">'+"습도 : " + weatherinfo[index].humidity +"%"+'</div>' +
                             '<div class="ellipsis" id="sub">'+"강수량 : "+weatherinfo[index].rain +"mm"+'</div>' +
+                            '<div class="ellipsis" id="sub">'+"적설량 : "+weatherinfo[index].snow +"mm"+'</div>' +
                             '<div class="ellipsis" id="sub">'+"날씨 : "+weatherinfo[index].main +'</div>' +
+                            '<div class="ellipsis" id="sub">'+"위험도 : "+global_dangerous[index] +'</div>' +
     // '                        <div class="ellipsis" id="sub">'+sub_place +'</div>' +
             '            </div>' +
             '        </div>' +
@@ -458,25 +427,9 @@ var content = '<style>\n' +
     // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
     selectedOverlay = currentOverlay;
 }
-// function displayDanger(){
-//     var imageSrc = '/static/menu.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-//     imageSize = new kakao.maps.Size(100, 250),  // 마커 이미지의 크기
-//     imgOptions =  {
-//         offset: new kakao.maps.Point(28, 26) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-//     },
-//     markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-//         marker = new kakao.maps.Marker({
-//         position: position, // 마커의 위치
-//         image: markerImage
-//     });
-// }
-
 function closeOverlay(overlay) {
     overlay.setMap(null);
 }
-
-var nameList = "";
-
 function displayPagination(pagination) {
     var paginationEl = document.getElementById('pagination'),
         fragment = document.createDocumentFragment(),
@@ -498,10 +451,10 @@ function displayPagination(pagination) {
                 return function() {
 
                     //placesSearchCB 재호출
-                    weatherinfo=[];
-                    weather_array =[];
-                    global_dangerous=[];
-                    global_mountain=[];
+                    weatherinfo = [];
+                    weather_array = [];
+                    global_dangerous = [];
+                    global_mountain = [];
                     pagination.gotoPage(i);
                 }
             })(i);

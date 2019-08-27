@@ -70,6 +70,19 @@ select::-ms-expand {
 
 </style>
 </head>
+<script type="text/javascript">
+var bDisplay = true;
+{#function doDisplay(){#}
+{#    var con = document.getElementById("myDIV");#}
+{#    if(con.style.display=='none'){#}
+{#        con.style.display = 'block';#}
+{#    }else{#}
+{#        con.style.display = 'none';#}
+{#    }#}
+{#}#}
+</script>
+
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="topbar">
@@ -91,17 +104,6 @@ select::-ms-expand {
             <li class="nav-item active">
                 <a class="nav-link" href="menu2.html">Contact Us</a>
             </li>
-{#          <li class="nav-item dropdown">#}
-{#            <a class="nav-link dropdown-toggle"href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#              Analysis#}
-{#            </a>#}
-{#            <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
-{#              <a class="dropdown-item" href="#">Analysis1</a>#}
-{#              <a class="dropdown-item" href="#">Analysis2</a>#}
-{#              <div class="dropdown-divider"></div>#}
-{#              <a class="dropdown-item" href="#">ExtraAnalysis</a>#}
-{#            </div>#}
-{#          </li>#}
         </ul>
 
       </div>
@@ -141,10 +143,37 @@ select::-ms-expand {
                     <select name="selTwo" id="selTwo" onchange="showsigungu(this)">
                         <option style="color: white" value="default">---시,군,구---</option>
                     </select>
+
                 </div>
+
             </div>
+{#            <a href="javascript:doDisplay();">> 내용보기</a><br/><br/>#}
+{#            <div id = myDIV style=" padding: 10px; height: 150px;">#}
+{#                <script type="text/javascript" src="static/javascripts/granim.min.js"></script>#}
+{#                <canvas id="canvas-basic"></canvas>#}
+{#                <script>#}
+{##}
+{#                    var granimInstance = new Granim({#}
+{#                        element: '#canvas-basic',#}
+{#                        direction: 'left-right',#}
+{#                        isPausedWhenNotInView: true,#}
+{#                        states: {#}
+{#                            "default-state": {#}
+{#                                gradients: [#}
+{#                                    ['#ff9966', '#ff5e62'],#}
+{#                                    ['#00F260', '#0575E6'],#}
+{#                                    ['#e1eec3', '#f05053']#}
+{#                                ]#}
+{#                            }#}
+{#                        }#}
+{#                    });#}
+{#                </script>#}
+{#            </div>#}
+
             <br>
+
             <hr>
+
             <div id="name"><ul id="name_ul"></ul>
             <div id="pagination"></div></div>
 

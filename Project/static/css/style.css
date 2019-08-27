@@ -84,3 +84,16 @@ select{
 #name{
     color: white;
 }
+
+#canvas-basic {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 25%;
+    top: 10%;
+    right: 100%;
+    bottom: 0;
+    left: 0%;
+    /*overFlow:hidden;*/
+    /*margin: -10px auto 40px;*/
+}
