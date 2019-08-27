@@ -1,24 +1,22 @@
-function myFunc(vars) {
-    console.log(vars);
-    return vars
-}
 var selectedOverlay = null;
 var weatherinfo = [];
 var global_mountain = new Array();
 var weather_array = new Array();
 var global_lat = 0;
-var global_dangerous = new Array();
-var haha = [];
+var global_dangerous = [];
+var a=[];
+
+
 function weather_func(lat, lon,mountain){
     var time =[];
     // var weather_array = new Array();
     var moutain_obj = Object.assign({},mountain);
 
-   // console.log(lat,lon);
+
 
     timestamp = new Date().getTime();
     for ( var k=0; k<lat.length; k++ ) {
-        var appid = "67d8b1d584e1f82bb3207d448c26715c";
+        var appid = "0b243535ca956ce7a1a437f965b4be63";
         let apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat[k]+"&lon="+lon[k]+"&appid="+appid;
         //var weather_array = new Array();
         let counter = 1;
@@ -27,7 +25,7 @@ function weather_func(lat, lon,mountain){
             url: apiURI,
             dataType: "json",
             type: "GET",
-            async: "false",
+            async: false,
             success: function (data) {
                 var min = timestamp;
                 var result;
@@ -42,32 +40,28 @@ function weather_func(lat, lon,mountain){
                 }
                 if ((data.list[result].rain) == undefined) {
                     data.list[result].rain = 0;
-                    // console.log(data.list[result].rain);
+
                 } else if ((data.list[result].rain["1h"]) == undefined) {
                     if (data.list[result].rain["3h"] == undefined) {
                         data.list[result].rain = 0;
-                        // console.log(data.list[result].rain);
                     } else {
                         data.list[result].rain = data.list[result].rain["3h"];
-                        // console.log(data.list[result].rain);
                     }
                 }
                 if ((data.list[result].snow) == undefined) {
                     data.list[result].snow = 0;
-                    // console.log(data.list[result].snow);
                 } else if ((data.list[result].snow["1h"]) == undefined) {
                     if (data.list[result].snow["3h"] == undefined) {
                         data.list[result].snow = 0;
-                        // console.log(data.list[result].snow);
                     } else {
                         data.list[result].snow = data.list[result].snow["3h"];
-                        // console.log(data.list[result].snow);
+
                     }
                 }
 
                 global_lat = lat;
                 global_mountain.push(moutain_obj);
-
+                var temp1=[];
                 var temp = (data.list[result].main.temp) - 273.15;
                 var humidity = data.list[result].main.humidity;
                 var rain = data.list[result].rain;
@@ -76,51 +70,52 @@ function weather_func(lat, lon,mountain){
                 var dew = (data.list[result].main.temp - 273.15) - (100 - data.list[result].main.humidity) / 5;
                 var main = data.list[result].weather[0].main;
                 var icon = data.list[result].weather[0].icon;
+
                 var weather_1 = {temp, rain,  speed, humidity, dew, snow};
                 var weather_2 ={temp, rain,  speed, humidity, dew, snow, main, icon};
 
                 //weather_array[k] = weather_1;
                 //weather_array.splice(k,0,weather_1);
                 weather_array.push(weather_1);
-                // console.log(temp);
-                //weather_array[counter] = weather_1;
-                //counter++;
+
                 weatherinfo.push(weather_2);
-                // console.log(data.list[result].weather[0].main);
 
 
-                $.post("/weather", {
-                    names: weather_array,
-                    mountains : moutain_obj,
-                    max_list:lat.length,
-                }, function (data) {
-                    console.log(data);
-                    var dangerous = data;
-                    var x = '123';
-                    dangerous = String(dangerous);
-                    dangerous = dangerous.replace('[','');
-                    dangerous = dangerous.replace(']','');
-                    dangerous = dangerous.split(',');
-                    for(var i=0 in dangerous){
-                        // dangerous = data.replace('[','');
-                        dangerous[i] = Number(dangerous[i]);
-                        console.log(typeof(dangerous[i]));
-                        global_dangerous.push(dangerous[i]);
-                        console.log(typeof(global_dangerous[i]));
-                    }
-                    console.log(global_dangerous[0]);
-                    console.log(typeof(global_dangerous));
-                    console.log(global_dangerous);
-                });
+                if(weather_array.length == mountain.length) {
+                    $.ajaxSetup({async: false});
+                    $.post("/weather", {
+                        names: weather_array,
+                        mountains: moutain_obj,
+                        async: false,
+                        max_list: lat.length,
+                    }, function (data) {
+                        var dangerous = data;
+                        // var x = '123';
+                        dangerous = String(dangerous);
+                        dangerous = dangerous.replace('[', '');
+                        dangerous = dangerous.replace(']', '');
+                        dangerous = dangerous.split(',');
 
-            }
+                        // global_dangerous.push(data);
+                        for (var i = 0 in dangerous) {
+                            // dangerous = data.replace('[','');
+                            dangerous[i] = Number(dangerous[i]);
 
-        });
+                            console.log(dangerous[i]);
+                            global_dangerous.push(dangerous[i]);
+
+                        }
+                        // global_dangerous = {name :dangerous[0]};
+
+                    });
+                }
+        }});
+
     };
 
 }
 
-console.log(weather_array);
+
 var markers=[];
 function showsido(first) {
     weatherinfo = [];
@@ -232,6 +227,7 @@ function displayPlaces(places) {
     removeMarker();
     var latList = new Array();
     var lonList = new Array();
+
     var mountain_name = new Array();
     var address = [];
     // var dangers = [99, 20, 54, 75, 91, 10, 55, 24, 35, 75, 85, 64, 53, 1, 99];
@@ -240,14 +236,14 @@ function displayPlaces(places) {
         lonList[i] = places[i].x;
         mountain_name[i] = places[i].place_name;
     }
-    console.log(latList);
-    console.log(lonList);
-    console.log(mountain_name);
-    // console.log(Array(global_dangerous));
-    weather_func(latList, lonList,mountain_name);
-    // global_dd = global_dangerous;
-    console.log(Array(global_dangerous));
+
+    console.log(global_dangerous[0]);
+    weather_func(latList, lonList, mountain_name);
+    console.log(global_dangerous[0]);
+    console.log(global_mountain[0]);
+
     for ( var i=0; i<places.length; i++ ) {
+
 
             lat = places[i].y;
             lon = places[i].x;
@@ -256,6 +252,7 @@ function displayPlaces(places) {
             latList[i] = places[i].y;
             lonList[i] = places[i].x;
             mountain_name[i] = places[i].place_name;
+
 
 
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
@@ -269,7 +266,7 @@ function displayPlaces(places) {
         // 마커와 검색결과 항목에 mouseover 했을때
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
         // mouseout 했을 때는 인포윈도우를 닫습니다
-        // console.log(places[0]);
+
         //익명 즉시실행함수
         //https://beomy.tistory.com/9 참고
 
@@ -281,18 +278,17 @@ function displayPlaces(places) {
             var point_y = 0.0;
             point_x = places.x;
             point_y = places.y;
-            // console.log(marker.getPosition());
+
             kakao.maps.event.addListener(marker, 'onclick', function() {
                 // nondisplayInfowindow();
-                // console.log(marker.getPosition());
+
                 map.setLevel(3);
                 overlay.setMap(map);
                 panTo(point_y,point_x);
                 // displayInfowindow(marker, title);
                         // p =overlay.setMap(map);
                 // overlay.setMap(map);
-                // console.log(places[i].y,places[i].x);
-                // console.log(marker[i].position);
+
                 // focusmap(marker,title);
             });
             kakao.maps.event.addListener(marker, 'click', function() {
@@ -319,7 +315,7 @@ function displayPlaces(places) {
 
 
         })(marker,  places[i].place_name , places[i],i);
-        // console.log(places[i].x, places[i].y);
+
         fragment.appendChild(itemEl);
     }
     //
@@ -333,15 +329,13 @@ function displayPlaces(places) {
 
     // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
     // weather_func(latList, lonList,mountain_name);
-    // console.log(global_dangerous);
+
     listEl.appendChild(fragment);
     menuEl.scrollTop = 0;
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     map.setBounds(bounds);
 
-    // console.log(weatherinfo);
-    // get_mountain(mountain_name);
 }
 
 function removeMarker() {
@@ -373,14 +367,6 @@ function getListItem(index, places) {
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(position, idx,global_dd) {
     var url1=null;
-    // console.log(Array(global_dangerous));
-    // console.log(global_dangerous[idx].);
-    console.log(global_dangerous.valueOf(0));
-    // console.log(typeof (global_dangerous));
-    // console.log(global_dangerous[0]);
-    // var keys = Object.values(global_dangerous);
-    // console.log(keys[0]);
-    // console.log(typeof (keys));
 
     if(global_dangerous[idx] < 50){
         url1 =  '/static/green.png'
@@ -401,7 +387,8 @@ function addMarker(position, idx,global_dd) {
         position: position, // 마커의 위치
         image: markerImage
     });
-    // console.log(marker.position);
+
+
     marker.setMap(map); // 지도 위에 마커를 표출합니다
     markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 
@@ -409,8 +396,7 @@ function addMarker(position, idx,global_dd) {
 }
 
 function displayOverlay(marker, place_name, sub_place=null,index) {
-    // console.log(index);
-    // console.log(weatherinfo[index-1]);
+
 var content = '<style>\n' +
     '.wrap {position: absolute;border-radius:20px;left: 0;bottom: 30px;width: 288px;height: 180px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: \'Malgun Gothic\', dotum, \'돋움\', sans-serif;line-height: 1.5;}\n' +
     '.wrap * {padding: 0;margin: 0;}\n'+
