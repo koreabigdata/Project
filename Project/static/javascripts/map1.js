@@ -77,7 +77,7 @@ function weather_func(lat, lon,mountain){
                 //weather_array[k] = weather_1;
                 //weather_array.splice(k,0,weather_1);
                 weather_array.push(weather_1);
-
+                console.log(weather_array);
                 weatherinfo.push(weather_2);
 
 
@@ -118,7 +118,10 @@ function weather_func(lat, lon,mountain){
 
 var markers=[];
 function showsido(first) {
+    weather_array =[];
+    global_dangerous = []
     weatherinfo = [];
+    global_mountain=[];
     var valname = first.options[first.selectedIndex].text;
     ps.keywordSearch(valname + ' 산', placesSearchCB,{
         category_group_code: "AT4",
@@ -128,7 +131,10 @@ function showsido(first) {
 }
 
 function showsigungu(sigun) {
+    global_dangerous = []
+    weather_array =[];
     weatherinfo = [];
+    global_mountain=[];
     var first = document.getElementById('selOne');
     var valname = first.options[first.selectedIndex].text;
     var sigun = sigun.options[sigun.selectedIndex].text;
@@ -237,9 +243,9 @@ function displayPlaces(places) {
         mountain_name[i] = places[i].place_name;
     }
 
-    console.log(global_dangerous[0]);
+    // console.log(global_dangerous[0]);
     weather_func(latList, lonList, mountain_name);
-    console.log(global_dangerous[0]);
+    console.log(global_dangerous);
     console.log(global_mountain[0]);
 
     for ( var i=0; i<places.length; i++ ) {
@@ -367,7 +373,7 @@ function getListItem(index, places) {
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(position, idx,global_dd) {
     var url1=null;
-
+    console.log(global_dangerous.length);
     if(global_dangerous[idx] < 50){
         url1 =  '/static/green.png'
     }else if(global_dangerous[idx]>=50 &&global_dangerous[idx] < 70 ){
@@ -391,7 +397,6 @@ function addMarker(position, idx,global_dd) {
 
     marker.setMap(map); // 지도 위에 마커를 표출합니다
     markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-
     return marker;
 }
 
@@ -494,6 +499,9 @@ function displayPagination(pagination) {
 
                     //placesSearchCB 재호출
                     weatherinfo=[];
+                    weather_array =[];
+                    global_dangerous=[];
+                    global_mountain=[];
                     pagination.gotoPage(i);
                 }
             })(i);
