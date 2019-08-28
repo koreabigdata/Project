@@ -232,7 +232,7 @@ function displayPlaces(places) {
 
 
     for ( var i=0; i<places.length; i++ ) {
-
+            console.log(weatherinfo);
 
             lat = places[i].y;
             lon = places[i].x;
@@ -309,6 +309,7 @@ function displayPlaces(places) {
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     map.setBounds(bounds);
+
 
 }
 

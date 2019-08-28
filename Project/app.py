@@ -1,6 +1,6 @@
 import flask
-from flask import Flask,render_template, request, redirect, url_for
-import dash
+from flask import Flask, render_template, request, redirect, url_for
+from dash import Dash
 import numpy as np
 import tensorflow as tf
 import dash_html_components as html
@@ -10,21 +10,22 @@ from pathlib import Path
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
 import copy
-from dash.dependencies import ClientsideFunction,Input,Output
+from dash.dependencies import ClientsideFunction, Input, Output
 import plotly.graph_objects as go
 import datetime as dt
 import ast
 import json
 from multiprocessing import Value
 
-counter = Value('i',0)
-app = Flask(__name__)
-dash_app = dash.Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}], server=app, url_base_pathname='/analysis/')
-#dash_app.layout = html.Div([html.H1('Hi there, I am app1 for dashboards')])
+counter = Value('i', 0)
+server = Flask(__name__)
+dash_app = Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}], server=server,
+                url_base_pathname='/analysis/')
+dash_app2 = Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}], server=server,
+                 url_base_pathname='/analysis2/')
 model = None
-#list2append=[]
 
-#defining path
+# defining path
 PATH = Path(__file__).parent
 DATA_PATH = PATH.joinpath("static").resolve()
 
@@ -37,11 +38,11 @@ df_rank = pd.read_csv(DATA_PATH.joinpath("score_data1.csv"), low_memory=False, e
 
 # data_loc
 loc_statuses_dict = dict(서울특별시="서울특별시", 강원도="강원도", 경상남도="경상남도",
-                         경상북도="경상북도", 광주광역시="광주광역시",대구광역시 ="대구광역시",
-                         대전광역시="대전광역시",부산광역시="부산광역시", 세종특별자치시="세종특별자치시",
+                         경상북도="경상북도", 광주광역시="광주광역시", 대구광역시="대구광역시",
+                         대전광역시="대전광역시", 부산광역시="부산광역시", 세종특별자치시="세종특별자치시",
                          울산광역시="울산광역시", 인천광역시="인천광역시", 전라남도="전라남도",
                          전라북도="전라북도", 제주특별자치도="제주특별자치도", 충청남도="충청남도", 충청북도="충청북도",
-                        )
+                         )
 loc_statuses_options = [
     {'label': str(loc_statuses_dict[loc_status]), "value": str(loc_status)} for loc_status in loc_statuses_dict
 ]
@@ -49,22 +50,18 @@ loc_statuses_options = [
 # defining Layout
 mapbox_access_token = "pk.eyJ1IjoiamFja2x1byIsImEiOiJjajNlcnh3MzEwMHZtMzNueGw3NWw5ZXF5In0.fk8k06T96Ml9CLGgKmk81w"
 
-trace1 = go.Pie(
-    labels = ['일반산악사고', '일반조난', '실족추락', '기타산악', '개인(급, 만성)질환', '개인질환', '탈진.탈수', '자살기도', '암벽등반', '낙석.낙빙', '저체온증', '야생식물섭취중독', '고온환경질환'],
-    values = [27364, 15151, 14745, 6056, 5855, 1648, 922, 623, 298, 84, 80, 22, 15],
-    name= '사고원인'
-)
+data1 = [go.Pie(
+    labels=['일반산악사고', '일반조난', '실족추락', '기타산악', '개인(급, 만성)질환', '개인질환', '탈진.탈수', '자살기도', '암벽등반', '낙석.낙빙', '저체온증',
+            '야생식물섭취중독', '고온환경질환'],
+    values=[27364, 15151, 14745, 6056, 5855, 1648, 922, 623, 298, 84, 80, 22, 15],
+    name='사고원인'
+)]
 
-data1 = [trace1]
-
-trace2 = go.Bar(
-    x= list(df_pie['시간']),
-    y= list(df_pie['사고건수']),
-    name = '시간별 사고 추이',
-)
-
-data2 = [trace2]
-
+data2 = [go.Bar(
+    x=list(df_pie['시간']),
+    y=list(df_pie['사고건수']),
+    name='시간별 사고 추이',
+)]
 
 layout = dict(
     autosize=True,
@@ -83,13 +80,15 @@ layout = dict(
     ),
 )
 
+
 def filter_dataframe(df, loc_statuses, year_slider):
     dff = df[
         df["산지역"].isin(loc_statuses)
         & (df["report_time"] > dt.datetime(year_slider[0], 1, 1))
         & (df["report_time"] < dt.datetime(year_slider[1], 12, 31))
-    ]
+        ]
     return dff
+
 
 dash_app.layout = html.Div(
     [
@@ -101,7 +100,7 @@ dash_app.layout = html.Div(
                 html.Div(
                     [
                         html.Img(
-                            src=dash_app.get_asset_url("dash-logo.png"),
+                            src="/static/santa_logo_black.png",
                             id="plotly-image",
                             style={
                                 "height": "60px",
@@ -132,9 +131,9 @@ dash_app.layout = html.Div(
                 html.Div(
                     [
                         html.A(
-                            html.Button("Back", id="learn-more-button"),
+                            html.Button("Home", id="learn-more-button"),
                             href="/",
-                        )
+                        ),
                     ],
                     className="one-third column",
                     id="button",
@@ -157,12 +156,13 @@ dash_app.layout = html.Div(
                             min=2010,
                             max=2118,
                             step=1,
-                            marks={2010:2010,2022:2011,2034:2012,2046:2013,2058:2014,2070:2015,2082:2016,2094:2017,2106:2018},
+                            marks={2010: 2010, 2022: 2011, 2034: 2012, 2046: 2013, 2058: 2014, 2070: 2015, 2082: 2016,
+                                   2094: 2017, 2106: 2018},
                             value=[2010, 2118],
                             className="dcc_control",
 
                         ),
-                        html.P("전국 17개 시도:", className="control_label",style={'padding-top':"60px"}),
+                        html.P("전국 17개 시도:", className="control_label", style={'padding-top': "60px"}),
 
                         dcc.Dropdown(
                             id="loc_statuses",
@@ -172,33 +172,15 @@ dash_app.layout = html.Div(
                             className="dcc_control",
                         ),
 
-                        # dcc.Dropdown(
-                        #     id="year_types",
-                        #     options=[
-                        #         {"label": "2010년 ", "value": 2010},
-                        #         {"label": "2011년 ", "value": 2011},
-                        #         {"label": "2012년 ", "value": 2012},
-                        #         {"label": "2013년 ", "value": 2013},
-                        #         {"label": "2014년 ", "value": 2014},
-                        #         {"label": "2015년 ", "value": 2015},
-                        #         {"label": "2016년 ", "value": 2016},
-                        #         {"label": "2017년 ", "value": 2017},
-                        #         {"label": "2018년 ", "value": 2018},
-                        #     ],
-                        #     multi=False,
-                        #     value="active",
-                        #     className="dcc_control",
-                        # ),
-
                     ],
                     className="pretty_container four columns",
                     id="cross-filter-options",
                 ),
                 html.Div(
                     [
-
                         html.Div(
-                            [dcc.Graph(id="count_graph")],
+                            [
+                                dcc.Graph(id="count_graph")],
                             id="countGraphContainer",
                             className="pretty_container",
                         ),
@@ -208,15 +190,17 @@ dash_app.layout = html.Div(
                 ),
             ],
             className="row flex-display",
-            style={"height":"auto"},
+            style={"height": "auto"},
         ),
         html.Div(
             [
                 html.Div(
-                    [dcc.Graph(
+                    [
+                        html.H4("사고종별 산악사고 발생 비율"),
+                        dcc.Graph(
                         id="graph",
-                        figure = go.Figure(data=data1)
-                                )
+                        figure=go.Figure(data=data1)
+                    )
                     ],
                     className="pretty_container five columns",
                 ),
@@ -234,27 +218,17 @@ dash_app.layout = html.Div(
                             id="wells",
                             className="mini_container",
                         ),
-
-                        # html.Img(
-                        #     src=app.get_asset_url("mountain_accident_wordcloud.jpg"),
-                        #     id="word_cloud-image",
-                        #     style={
-                        #         "height": "auto",
-                        #         "width": "300px",
-                        #         "margin-bottom": "10px",
-                        #     },
-                        #     className="mini_container",
-                        # ),
-
                     ],
-                    className="pretty_container three columns"
+                    className="pretty_container four columns"
                 ),
                 html.Div(
-                    [dcc.Graph(
+                    [
+                        html.H4("시간대별 산악 사고 발생 건수"),
+                        dcc.Graph(
                         id="main_graph",
                         figure=go.Figure(data=data2)
                     )],
-                    className="pretty_container seven columns",
+                    className="pretty_container six columns",
                 ),
 
             ],
@@ -301,7 +275,7 @@ dash_app.layout = html.Div(
                 html.Div(
                     [
                         html.Div(
-                            html.H3('산악 사고 발생 빈도 TOP 300')
+                            html.H4('산악 사고 발생 빈도 TOP 300')
                         ),
                         html.Div(
                             html.Iframe(
@@ -324,23 +298,228 @@ dash_app.layout = html.Div(
     id="mainContainer",
     style={"display": "flex", "flex-direction": "column"},
 )
-
 dash_app.clientside_callback(
     ClientsideFunction(namespace="clientside", function_name="resize"),
     Output("output-clientside", "children"),
     [Input("count_graph", "figure")],
 )
 
+dash_app2.layout = html.Div(
+    [
+        dcc.Store(id="aggregate_data"),
+        # empty Div to trigger javascript file for graph resizing
+        html.Div(id="output-clientside"),
+        html.Div(
+            [
+                html.Div(
+                    [
+                        html.Img(
+                            src="/static/santa_logo_black.png",
+                            id="plotly-image",
+                            style={
+                                "height": "60px",
+                                "width": "auto",
+                                "margin-bottom": "25px",
+                            },
+                        )
+                    ],
+                    className="one-third column",
+                ),
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.H3(
+                                    "System for Analysis of National Trekking Accidents",
+                                    style={"margin-bottom": "0px"},
+                                ),
+                                html.H5(
+                                    "Data Analysis Overview", style={"margin-top": "0px"}
+                                ),
+                            ]
+                        )
+                    ],
+                    className="one-half column",
+                    id="title",
+                ),
+                html.Div(
+                    [
+                        html.A(
+                            html.Button("Home", id="learn-more-button"),
+                            href="/",
+                        ),
+                    ],
+                    className="one-third column",
+                    id="button",
+                ),
+
+            ],
+            id="header",
+            className="row flex-display",
+            style={"margin-bottom": "25px"},
+        ),
+
+        html.Div(
+            [
+                html.Div(
+                    [
+                        html.Div(
+                            html.H3('산악 사고 발생 장소')
+                        ),
+                        html.Div(
+                            html.Iframe(
+                                src=dash_app2.get_asset_url("cluster.html"),
+                                style={
+                                    "width": "100%",
+                                    "height": "400px",
+                                },
+                            ),
+                        ),
+                    ],
+                    className="pretty_container seven columns"
+                ),
+
+                html.Div(
+                    [
+                        html.Div(
+                            html.H3('사고 다발 지역 국가지점번호'),
+                        ),
+                        html.Div(
+                            [
+                                html.Div([
+                                    html.Img(
+                                        src="/static/도봉산 지점번호.png",
+                                        height="100px",
+                                        width="100px",
+                                        style={
+                                            "float":"left"
+                                        }
+                                    ),
+                                    html.Div([
+                                        html.H6("도봉산 사고 다발 지역"),
+                                        html.P("지점번호 : 다사 57XX 65YY"),
+                                        html.P("상세지역 : 서울특별시 도봉구 도봉동 산29"),
+                                    ], style={
+                                        "padding-left":"150px",
+                                    }
+                                    ),
+                                ], className="mini_container",
+                                ),
+
+                                html.Div([
+                                    html.Img(
+                                        src="/static/북한산 지점번호.png",
+                                        height="100px",
+                                        width="100px",
+                                        style={
+                                            "float": "left"
+                                        }
+                                    ),
+                                    html.Div([
+                                        html.H6("북한산 사고 다발 지역"),
+                                        html.P("지점번호 : 다사 51XX 58YY"),
+                                        html.P("상세지역 : 서울특별시 종로구 구기동 산1"),
+                                    ], style={
+                                        "padding-left": "150px",
+                                    }
+                                    ),
+                                ], className="mini_container",
+                                ),
+                                html.Div([
+                                    html.Img(
+                                        src="/static/설악산 지점번호.png",
+                                        height="100px",
+                                        width="100px",
+                                        style={
+                                            "float":"left"
+                                        }
+                                    ),
+                                    html.Div([
+                                        html.H6("설악산 사고 다발 지역"),
+                                        html.P("지점번호 : 다사 57XX 65YY"),
+                                        html.P("상세지역 : 강원도 속초시 설악동 산31"),
+                                    ], style={
+                                        "padding-left":"150px",
+                                    }
+                                    ),
+                                ], className="mini_container",
+                                ),
+                            ],
+                        )
+                    ],
+                    className="pretty_container five columns"
+                ),
+            ],
+            className="row flex-display",
+        ),
+
+        html.Div(
+            [
+                html.Div(
+                    [
+                        html.Div(
+                            html.H3('Word Cloud')
+                        ),
+                        html.Img(
+                            title="사고 종별",
+                            src="/static/word_cloud1.jpg",
+                            id="word_cloud-image1",
+                            style={
+                                "height": "350px",
+                                "width": "300px",
+                            },
+                            className="mini_container",
+                        ),
+
+                        html.Img(
+                            title="산 별",
+                            src="/static/word_cloud2.jpg",
+                            id="word_cloud-image2",
+                            style={
+                                "height": "350px",
+                                "width": "300px",
+                            },
+                            className="mini_container",
+                        ),
+
+                    ],
+                    className="pretty_container seven columns"
+                ),
+
+                html.Div(
+                    [
+                        html.Div(
+                            html.H3('영상')
+                        ),
+                        html.Div(
+                            html.Iframe(
+                                src="https://www.youtube.com/embed/xR6gqTCf78c",
+                                style={
+                                    "width": "100%",
+                                    "height": "400px",
+                                },
+                            ),
+                        ),
+                    ],
+                    className="pretty_container five columns"
+                ),
+            ],
+            className="row flex-display",
+        )
+    ],
+    style={"display": "flex", "flex-direction": "column"},
+)
+
 
 # Slider -> count graph
 @dash_app.callback(Output("year_slider", "value"), [Input("count_graph", "selectedData")])
 def update_year_slider(count_graph_selected):
-
     if count_graph_selected is None:
         return [2010, 2118]
 
     nums = [int(point["pointNumber"]) for point in count_graph_selected["points"]]
     return [min(nums) + 2010, max(nums) + 2011]
+
 
 @dash_app.callback(
     Output("count_graph", "figure"),
@@ -350,11 +529,10 @@ def update_year_slider(count_graph_selected):
     ],
 )
 def make_count_figure(loc_statuses, year_slider):
-
     layout_count = copy.deepcopy(layout)
 
     dff = filter_dataframe(df, loc_statuses, [2010, 2018])
-    g = dff[["산지역", "report_time_simple",'report_time']]
+    g = dff[["산지역", "report_time_simple", 'report_time']]
     g = g.set_index('report_time')
     g = g.resample("M").count()
 
@@ -399,50 +577,60 @@ def loading_model():
     graph = tf.compat.v1.get_default_graph()
     model = tf.keras.models.load_model('model.h5')
 
+
 loading_model()
 
-@app.route('/')
+
+@server.route('/')
+@server.route('/<task>')
 def hello_world(task=''):
+    print("printing task: ", task)
     return render_template('index.html', task=task)
 
-@app.route('/analysis/')
+
+@server.route('/analysis/')
 def render_dash():
     return flask.redirect('/dash1')
 
-@app.route('/menu2/')
-def contact_us():
-    return render_template('menu2.html')
-app_1 = DispatcherMiddleware(app, {
-    '/dash1' : dash_app.server
+
+@server.route('/analysis2/')
+def render_dash1():
+    return flask.redirect('/dash2')
+
+
+app = DispatcherMiddleware(server, {
+    '/dash1': dash_app.server,
+    '/dash2': dash_app2.server
 })
 
 
-@app.route('/predict/<numpy_array>')
+@server.route('/predict/<numpy_array>')
 def predict(numpy_array):
     loading_model()
     x = numpy_array
     x = ast.literal_eval(x)
-#    print(type(x))
+    #    print(type(x))
     x = np.array(x)
-#    print(x)
-#    print(type(x))
-#    x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
+    #    print(x)
+    #    print(type(x))
+    #    x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
     list_value = []
     with graph.as_default():
-        #x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
-#        x = [x]
+        # x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
+        #        x = [x]
         preds = model.predict_proba(x)
     print(type(preds))
     for preds_length in range(len(preds)):
         s1 = preds[preds_length][1] / preds[preds_length][0]
         s2 = preds[preds_length][2] / preds[preds_length][0]
-        s = s1*0.2 + s2*0.8
+        s = s1 * 0.2 + s2 * 0.8
         list_value.append(s)
     print(preds[0])
     print(preds[0][1])
-    return redirect(url_for("hello_world",predict=list_value))
+    return redirect(url_for("hello_world", predict=list_value))
 
-@app.route('/weather', methods=['GET','POST'])
+
+@server.route('/weather', methods=['GET','POST'])
 def get_post_javascript_data():
 #    list2append=[]
     with counter.get_lock():
@@ -530,6 +718,7 @@ def get_post_javascript_data():
     temp_rk = str(temp_rk)
     return temp_rk
 
+
 if __name__ == '__main__':
     loading_model()
-    app_1.run()
+    app.run()
