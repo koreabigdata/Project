@@ -1,99 +1,261 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}">
-<title>SANTA</title>
-<style>
-#pagination {
-    margin: 20px auto;
-    text-align: center;
-}
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>SANTA</title>
+    <style>
+        #pagination {
+            margin: 20px auto;
+            text-align: center;
+        }
 
-#pagination a {
-    display: inline-block;
-    margin-right: 10px;
-}
+        #pagination a {
+            display: inline-block;
+            margin-right: 10px;
+        }
 
-#pagination .on {
-    font-weight: bold;
-    cursor: default;
-    color: #777;
-}
+        #pagination .on {
+            font-weight: bold;
+            cursor: default;
+            color: #777;
+        }
 
-.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:100%;height:500px;}
-.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:100%;height:500px;}
-#menu_wrap {position:absolute;top:0;right:0;bottom:0;width:22rem;height:98%;margin:10px 0 0px 10px;padding:5px;overflow-y:auto;background:rgba(0,0,0,0.8);z-index: 1;font-size:12px;border-radius: 10px;}
-#selOne, #selTwo {height: 30px; width: 140px; position: relative; margin-top: 10px; margin-bottom:10px;font-size: 13pt;}
-.col{height: 50px}
-select::-ms-expand {
-  /* for IE 11 */
-  display: none;
-}
-  /* 화살표 이미지 */
+        .map_wrap, .map_wrap * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+            font-size: 12px;
+        }
 
-#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
-#menu_wrap .option{text-align: center;}
-#menu_wrap .option p {margin:10px 0;}
-#menu_wrap .option button {margin-left:5px;}
-#name_ul li {list-style: none;}
-#name_ul .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-#name_ul .item span {display: block; margin-top:4px;}
-#name_ul .item h5, #name_ul .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-#name_ul .item .info{padding:10px 0 10px 55px;}
-#name_ul .info .gray {color:#8a8a8a;}
-#name_ul .info .jibun {padding-left:26px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-#name_ul .info .tel {color:#009900;}
-#name_ul .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
-#name_ul .item .marker_1 {background-position: 0 -10px;}
-#name_ul .item .marker_2 {background-position: 0 -56px;}
-#name_ul .item .marker_3 {background-position: 0 -102px}
-#name_ul .item .marker_4 {background-position: 0 -148px;}
-#name_ul .item .marker_5 {background-position: 0 -194px;}
-#name_ul .item .marker_6 {background-position: 0 -240px;}
-#name_ul .item .marker_7 {background-position: 0 -286px;}
-#name_ul .item .marker_8 {background-position: 0 -332px;}
-#name_ul .item .marker_9 {background-position: 0 -378px;}
-#name_ul .item .marker_10 {background-position: 0 -423px;}
-#name_ul .item .marker_11 {background-position: 0 -470px;}
-#name_ul .item .marker_12 {background-position: 0 -516px;}
-#name_ul .item .marker_13 {background-position: 0 -562px;}
-#name_ul .item .marker_14 {background-position: 0 -608px;}
-#name_ul .item .marker_15 {background-position: 0 -654px;}
-.navbar-nav li{margin:0 20px;}
+        .map_wrap a, .map_wrap a:hover, .map_wrap a:active {
+            color: #000;
+            text-decoration: none;
+        }
 
-</style>
+        .map_wrap {
+            position: relative;
+            width: 100%;
+            height: 500px;
+        }
+
+        .map_wrap, .map_wrap * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+            font-size: 12px;
+        }
+
+        .map_wrap a, .map_wrap a:hover, .map_wrap a:active {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .map_wrap {
+            position: relative;
+            width: 100%;
+            height: 500px;
+        }
+
+        #menu_wrap {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 22rem;
+            height: 98%;
+            margin: 10px 0 0px 10px;
+            padding: 5px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1;
+            font-size: 12px;
+            border-radius: 10px;
+        }
+
+        #selOne, #selTwo {
+            height: 30px;
+            width: 140px;
+            position: relative;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 13pt;
+        }
+
+        .col {
+            height: 50px
+        }
+
+        select::-ms-expand {
+            /* for IE 11 */
+            display: none;
+        }
+
+        /* 화살표 이미지 */
+
+        #menu_wrap hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 2px solid #5F5F5F;
+            margin: 3px 0;
+        }
+
+        #menu_wrap .option {
+            text-align: center;
+        }
+
+        #menu_wrap .option p {
+            margin: 10px 0;
+        }
+
+        #menu_wrap .option button {
+            margin-left: 5px;
+        }
+
+        #name_ul li {
+            list-style: none;
+        }
+
+        #name_ul .item {
+            position: relative;
+            border-bottom: 1px solid #888;
+            overflow: hidden;
+            cursor: pointer;
+            min-height: 65px;
+        }
+
+        #name_ul .item span {
+            display: block;
+            margin-top: 4px;
+        }
+
+        #name_ul .item h5, #name_ul .item .info {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        #name_ul .item .info {
+            padding: 10px 0 10px 55px;
+        }
+
+        #name_ul .info .gray {
+            color: #8a8a8a;
+        }
+
+        #name_ul .info .jibun {
+            padding-left: 26px;
+            background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
+        }
+
+        #name_ul .info .tel {
+            color: #009900;
+        }
+
+        #name_ul .item .markerbg {
+            float: left;
+            position: absolute;
+            width: 36px;
+            height: 37px;
+            margin: 10px 0 0 10px;
+            background: url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
+        }
+
+        #name_ul .item .marker_1 {
+            background-position: 0 -10px;
+        }
+
+        #name_ul .item .marker_2 {
+            background-position: 0 -56px;
+        }
+
+        #name_ul .item .marker_3 {
+            background-position: 0 -102px
+        }
+
+        #name_ul .item .marker_4 {
+            background-position: 0 -148px;
+        }
+
+        #name_ul .item .marker_5 {
+            background-position: 0 -194px;
+        }
+
+        #name_ul .item .marker_6 {
+            background-position: 0 -240px;
+        }
+
+        #name_ul .item .marker_7 {
+            background-position: 0 -286px;
+        }
+
+        #name_ul .item .marker_8 {
+            background-position: 0 -332px;
+        }
+
+        #name_ul .item .marker_9 {
+            background-position: 0 -378px;
+        }
+
+        #name_ul .item .marker_10 {
+            background-position: 0 -423px;
+        }
+
+        #name_ul .item .marker_11 {
+            background-position: 0 -470px;
+        }
+
+        #name_ul .item .marker_12 {
+            background-position: 0 -516px;
+        }
+
+        #name_ul .item .marker_13 {
+            background-position: 0 -562px;
+        }
+
+        #name_ul .item .marker_14 {
+            background-position: 0 -608px;
+        }
+
+        #name_ul .item .marker_15 {
+            background-position: 0 -654px;
+        }
+
+        .navbar-nav li {
+            margin: 0 20px;
+        }
+
+    </style>
 </head>
 <script type="text/javascript">
-var bDisplay = true;
-function doDisplay(){
-    var con = document.getElementById("myDIV");
-    {#if(con.style.display=='none'){#}
+    var bDisplay = true;
+
+    function doDisplay() {
+        var con = document.getElementById("myDIV");
+        {#if(con.style.display=='none'){#}
         con.style.display = 'block';
-    {# }else{#}
-    {#    con.style.display = 'none';#}
-    {# }#}
-}
+        {# }else{#}
+        {#    con.style.display = 'none';#}
+        {# }#}
+    }
 </script>
 
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="topbar">
-      <a class="navbar-brand" href="http://127.0.0.1:5000/">
-          <img src="static/santa_logo.png" style="width: 150px; height:auto;">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="topbar">
+    <a class="navbar-brand" href="http://127.0.0.1:5000/">
+        <img src="static/santa_logo.png" style="width: 150px; height:auto;">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="/analysis/">analysis 1<span class="sr-only">(current)</span></a>
@@ -101,100 +263,102 @@ function doDisplay(){
             <li class="nav-item active">
                 <a class="nav-link" href="/analysis2/">analysis 2<span class="sr-only">(current)</span></a>
             </li>
-{#            <li class="nav-item active">#}
-{#                <a class="nav-link" href="menu1.html">How To Use</a>#}
-{#            </li>#}
+            {#            <li class="nav-item active">#}
+            {#                <a class="nav-link" href="menu1.html">How To Use</a>#}
+            {#            </li>#}
             <li class="nav-item active">
                 <a class="nav-link" href="/menu2">Contact Us</a>
             </li>
         </ul>
 
-      </div>
-    </nav>
+    </div>
+</nav>
 
-    <div class = "container-fluid">
-{#        <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>#}
-        <div id="map" style='height:100vh;'> </div>
-{#        <img src="/static/menu.png" style="width:70px;height:250px;position: relative; top: 40%;left:1%;z-index:10;">#}
-        <div id = "menu_wrap" class="vertical-nav">
-            <div class="row" id="region_select">
-                <div class="col">
-                    <select name="selOne" id="selOne" onchange="sidoChange(this, 'selTwo'),showsido(this),doDisplay()">
-                        <option style="color:white" value="default">---시,도---</option>
-                        <option value="42">  강원도  </option>
-                        <option value="41">  경기도  </option>
-                        <option value="48">  경상남도  </option>
-                        <option value="47">  경상북도  </option>
-                        <option value="29">  광주광역시  </option>
-                        <option value="27">  대구광역시  </option>
-                        <option value="30">  대전광역시  </option>
-                        <option value="26">  부산광역시  </option>
-                        <option value="11">  서울특별시  </option>
-                        <option value="36">  세종특별자치시  </option>
-                        <option value="31">  울산광역시  </option>
-                        <option value="28">  인천광역시  </option>
-                        <option value="46">  전라남도  </option>
-                        <option value="45">  전라북도  </option>
-                        <option value="50">  제주특별자치도  </option>
-                        <option value="44">  충청남도  </option>
-                        <option value="43">  충청북도  </option>
-                    </select>
-                </div>
+<div class="container-fluid">
+    {#        <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>#}
+    <div id="map" style='height:100vh;'></div>
+    {#        <img src="/static/menu.png" style="width:70px;height:250px;position: relative; top: 40%;left:1%;z-index:10;">#}
+    <div id="menu_wrap" class="vertical-nav">
+        <div class="row" id="region_select">
+            <div class="col">
+                <select name="selOne" id="selOne" onchange="sidoChange(this, 'selTwo'),showsido(this),doDisplay()">
+                    <option style="color:white" value="default">---시,도---</option>
+                    <option value="42"> 강원도</option>
+                    <option value="41"> 경기도</option>
+                    <option value="48"> 경상남도</option>
+                    <option value="47"> 경상북도</option>
+                    <option value="29"> 광주광역시</option>
+                    <option value="27"> 대구광역시</option>
+                    <option value="30"> 대전광역시</option>
+                    <option value="26"> 부산광역시</option>
+                    <option value="11"> 서울특별시</option>
+                    <option value="36"> 세종특별자치시</option>
+                    <option value="31"> 울산광역시</option>
+                    <option value="28"> 인천광역시</option>
+                    <option value="46"> 전라남도</option>
+                    <option value="45"> 전라북도</option>
+                    <option value="50"> 제주특별자치도</option>
+                    <option value="44"> 충청남도</option>
+                    <option value="43"> 충청북도</option>
+                </select>
+            </div>
 
-                <div class="col">
+            <div class="col">
 
-                    <select name="selTwo" id="selTwo" onchange="showsigungu(this),doDisplay()">
-                        <option style="color: white" value="default">---시,군,구---</option>
-                    </select>
-
-                </div>
+                <select name="selTwo" id="selTwo" onchange="showsigungu(this),doDisplay()">
+                    <option style="color: white" value="default">---시,군,구---</option>
+                </select>
 
             </div>
-{#            <a href="javascript:doDisplay();">> 내용보기</a><br/><br/>#}
-{#            <div id = myDIV style=" padding: 10px; height: 150px;">#}
-{#                <script type="text/javascript" src="static/javascripts/granim.min.js"></script>#}
-{#                <canvas id="canvas-basic"></canvas>#}
-{#                <script>#}
-{##}
-{#                    var granimInstance = new Granim({#}
-{#                        element: '#canvas-basic',#}
-{#                        direction: 'left-right',#}
-{#                        isPausedWhenNotInView: true,#}
-{#                        states: {#}
-{#                            "default-state": {#}
-{#                                gradients: [#}
-{#                                    ['#ff9966', '#ff5e62'],#}
-{#                                    ['#00F260', '#0575E6'],#}
-{#                                    ['#e1eec3', '#f05053']#}
-{#                                ]#}
-{#                            }#}
-{#                        }#}
-{#                    });#}
-{#                </script>#}
-{#            </div>#}
-
-            <br>
-
-            <hr>
-
-            <div id="name"><ul id="name_ul"></ul>
-            <div id="pagination"></div></div>
-
-{#           page#}
 
         </div>
-{#        <div id="map" style='height:800px;'></div>#}
+        {#            <a href="javascript:doDisplay();">> 내용보기</a><br/><br/>#}
+        {#            <div id = myDIV style=" padding: 10px; height: 150px;">#}
+        {#                <script type="text/javascript" src="static/javascripts/granim.min.js"></script>#}
+        {#                <canvas id="canvas-basic"></canvas>#}
+        {#                <script>#}
+        {##}
+        {#                    var granimInstance = new Granim({#}
+        {#                        element: '#canvas-basic',#}
+        {#                        direction: 'left-right',#}
+        {#                        isPausedWhenNotInView: true,#}
+        {#                        states: {#}
+        {#                            "default-state": {#}
+        {#                                gradients: [#}
+        {#                                    ['#ff9966', '#ff5e62'],#}
+        {#                                    ['#00F260', '#0575E6'],#}
+        {#                                    ['#e1eec3', '#f05053']#}
+        {#                                ]#}
+        {#                            }#}
+        {#                        }#}
+        {#                    });#}
+        {#                </script>#}
+        {#            </div>#}
 
+        <br>
+
+        <hr>
+
+        <div id="name">
+            <ul id="name_ul"></ul>
+            <div id="pagination"></div>
+        </div>
+
+        {#           page#}
 
     </div>
+    {#        <div id="map" style='height:800px;'></div>#}
 
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script type="text/javascript" src="static/javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="static/javascripts/bootstrap.min.js"></script>
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c55662432b507052ca033688d489176c&libraries=services,clusterer,drawing"></script>
-   <script type="text/javascript" src="static/javascripts/map1.js"></script>
-    <script type="text/javascript" src="static/javascripts/search.js"></script>
+
+</div>
+
+<script type="text/javascript" src="static/javascripts/popper.min.js"></script>
+<script type="text/javascript" src="static/javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="static/javascripts/bootstrap.min.js"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c55662432b507052ca033688d489176c&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="static/javascripts/map1.js"></script>
+<script type="text/javascript" src="static/javascripts/search.js"></script>
 
 
 </body>
