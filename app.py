@@ -606,7 +606,6 @@ app = DispatcherMiddleware(server, {
 
 @server.route('/predict/<numpy_array>')
 def predict(numpy_array):
-    loading_model()
     x = numpy_array
     x = ast.literal_eval(x)
     #    print(type(x))
@@ -674,7 +673,6 @@ def get_post_javascript_data():
 #    else:
 #        new_list = list2append
 #    print(new_list)
-    loading_model()
     with graph.as_default():
         #x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
 #        x = [x]
@@ -717,8 +715,3 @@ def get_post_javascript_data():
     print(temp_rk)
     temp_rk = str(temp_rk)
     return temp_rk
-
-
-if __name__ == '__main__':
-    loading_model()
-    app.run()
