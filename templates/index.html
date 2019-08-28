@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block contents %}
+    {% if task == '1' %}
+        {% include 'menu1.html' %}
+    {% endif %}
+    {% if task == '2' %}
+        {% include 'menu2.html' %}
+    {% endif %}
+{% endblock contents %}
+
+
+
