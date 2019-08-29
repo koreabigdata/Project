@@ -380,7 +380,7 @@ dash_app2.layout = html.Div(
                             [
                                 html.Div([
                                     html.Img(
-                                        src="/static/도봉산 지점번호.png",
+                                        src="/static/dobong.png",
                                         height="100px",
                                         width="100px",
                                         style={
@@ -400,7 +400,7 @@ dash_app2.layout = html.Div(
 
                                 html.Div([
                                     html.Img(
-                                        src="/static/북한산 지점번호.png",
+                                        src="/static/bukhan.png",
                                         height="100px",
                                         width="100px",
                                         style={
@@ -419,7 +419,7 @@ dash_app2.layout = html.Div(
                                 ),
                                 html.Div([
                                     html.Img(
-                                        src="/static/설악산 지점번호.png",
+                                        src="/static/sulhak.png",
                                         height="100px",
                                         width="100px",
                                         style={
