@@ -122,8 +122,12 @@ dash_app.layout = html.Div(
                 html.Div(
                     [
                         html.A(
-                            html.Button("Home", id="learn-more-button"),
+                            html.Button("Home", id="learn-more-button1"),
                             href="/",
+                        ),
+                        html.A(
+                            html.Button("Informattion", id="learn-more-button2"),
+                            href="/information",
                         ),
                     ],
                     className="one-third column",
@@ -336,8 +340,12 @@ dash_app2.layout = html.Div(
                 html.Div(
                     [
                         html.A(
-                            html.Button("Home", id="learn-more-button"),
+                            html.Button("Home", id="learn-more-button3"),
                             href="/",
+                        ),
+                        html.A(
+                            html.Button("Analysis", id="learn-more-button4"),
+                            href="/analysis",
                         ),
                     ],
                     className="one-third column",
