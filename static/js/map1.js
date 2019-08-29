@@ -15,6 +15,7 @@ function weather_func(lat, lon,mountain){
 
     for ( var k=0; k<lat.length; k++ ) {
         var appid = "0b243535ca956ce7a1a437f965b4be63";
+        //var appid = "c4247eb10da831c88686f8d58ba63ebe";
         let apiURI ="https://api.openweathermap.org/data/2.5/forecast?lat="+lat[k]+"&lon="+lon[k]+"&appid="+appid;
         let counter = 1;
 
@@ -78,7 +79,7 @@ function weather_func(lat, lon,mountain){
                 weatherinfo.push(weather_2);
 
 
-                if(weather_array.length==mountain.length) {
+                if(weather_array.length == mountain.length) {
                     $.ajaxSetup({async: false});
                     $.post("/weather", {
                         names: weather_array,
