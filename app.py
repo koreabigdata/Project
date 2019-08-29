@@ -574,7 +574,7 @@ loading_model()
 
 
 @server.route('/')
-def hello_world(task=''):
+def hello_world():
     return render_template('index.html')
 
 
