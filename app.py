@@ -18,7 +18,7 @@ server = Flask(__name__)
 dash_app = Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}], server=server,
                 url_base_pathname='/analysis/')
 dash_app2 = Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}], server=server,
-                 url_base_pathname='/analysis2/')
+                 url_base_pathname='/information/')
 model = None
 
 PATH = Path(__file__).parent
