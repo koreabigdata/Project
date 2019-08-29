@@ -60,8 +60,6 @@
     let model = new TSP.models.Sequential(modelContainer);
     model.add(new TSP.layers.GreyscaleInput());
     model.add(new TSP.layers.Dense({units:512}));
-    model.add(new TSP.layers.Dense({units:512}));
-    model.add(new TSP.layers.Dense({units:256}));
     model.add(new TSP.layers.Dense({units:256}));
     model.add(new TSP.layers.Dense({units:64}));
     model.add(new TSP.layers.Dense({units:64}));
