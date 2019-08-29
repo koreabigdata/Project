@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% block contents %}{% endblock contents %}
+
+{% block script %}
+    <script src="{{ url_for('static',filename='js/three.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/tween.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/TrackballControls.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/tf.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/tensorspace.min.js') }}"></script>
+    <script>
+        let modelContainer = document.getElementById("container-fluid");
+        let model = new TSP.models.Sequential(modelContainer);
+        model.add(new TSP.layers.GreyscaleInput());
+        model.add(new TSP.layers.Conv2d());
+        model.add(new TSP.layers.Pooling2d());
+        model.add(new TSP.layers.Conv2d());
+        model.add(new TSP.layers.Pooling2d());
+        model.add(new TSP.layers.Dense());
+        model.add(new TSP.layers.Dense());
+        model.add(new TSP.layers.Output1d({
+            outputs: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        }));
+        model.load({
+            type: "keras",
+            url: './convertedModel/model.json'
+        });
+        model.init(function () {
+            $.ajax({
+                url: "../assets/data/5.json",
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    model.predict(data);
+                }
+            });
+        });
+    </script>
+{% endblock script %}

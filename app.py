@@ -573,9 +573,16 @@ def loading_model():
 loading_model()
 
 
+########################################################################################################################
+
 @server.route('/')
-def hello_world():
+def index():
     return render_template('index.html')
+
+
+@server.route('/tensor')
+def tensor():
+    return render_template('tensor.html')
 
 
 @server.route('/analysis')
@@ -587,6 +594,8 @@ def render_dash():
 def render_dash1():
     return flask.redirect('/dash2')
 
+
+########################################################################################################################
 
 app = DispatcherMiddleware(server, {
     '/dash1': dash_app.server,
