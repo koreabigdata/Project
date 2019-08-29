@@ -11,7 +11,7 @@ import dash_core_components as dcc
 import dash_bootstrap_components as dbc
 import copy
 from dash.dependencies import ClientsideFunction, Input, Output
-import plotly.graph_objects as go
+import plotly.graph_objs as go
 import datetime as dt
 
 server = Flask(__name__)
