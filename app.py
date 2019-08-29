@@ -569,9 +569,7 @@ def loading_model():
     graph = tf.compat.v1.get_default_graph()
     model = tf.keras.models.load_model('model.h5')
 
-
 loading_model()
-
 
 ########################################################################################################################
 
@@ -580,8 +578,8 @@ def index():
     return render_template('index.html')
 
 
-@server.route('/tensor')
-def tensor():
+@server.route('/model')
+def model():
     return render_template('tensor.html')
 
 
@@ -602,7 +600,6 @@ app = DispatcherMiddleware(server, {
     '/dash2': dash_app2.server
 })
 
-
 @server.route('/weather', methods=['GET', 'POST'])
 def get_post_javascript_data():
     max_list = request.form.get('max_list', 0)
@@ -618,20 +615,20 @@ def get_post_javascript_data():
     with graph.as_default():
         try:
             preds = model.predict_proba(x)
+            mountain_list = [request.form.get(f'mountains[{i}]', 0) for i in range(int(max_list))]
+            values = preds[:, 1] / preds[:, 0] * 0.2 + preds[:, 2] / preds[:, 0] * 0.8
+            list_value = values.tolist()
+            list_weight = [df_mountains.loc[i, 'weight'] if i in df_mountains.index else 0.018298748185446165 for i in
+                           mountain_list]
+            result_array = np.array(list_value) * np.array(list_weight)
+            minval = 0.00035494672381888403
+            maxval = 41.753419663213286
+            result_array = (result_array - minval) / (maxval - minval)
+            temp_rk = df_rank["mns"].append(pd.Series(result_array), ignore_index=True).rank(pct=True, ascending=False)[
+                      -15:]
+            return str(round(temp_rk * 100, 2).to_list())
         except Exception as e:
             print(e)
-        mountain_list = [request.form.get(f'mountains[{i}]', 0) for i in range(int(max_list))]
-        values = preds[:, 1] / preds[:, 0] * 0.2 + preds[:, 2] / preds[:, 0] * 0.8
-        list_value = values.tolist()
-        list_weight = [df_mountains.loc[i, 'weight'] if i in df_mountains.index else 0.018298748185446165 for i in
-                       mountain_list]
-        result_array = np.array(list_value) * np.array(list_weight)
-        minval = 0.00035494672381888403
-        maxval = 41.753419663213286
-        result_array = (result_array - minval) / (maxval - minval)
-        temp_rk = df_rank["mns"].append(pd.Series(result_array), ignore_index=True).rank(pct=True, ascending=False)[-15:]
-        return str(round(temp_rk * 100, 2).to_list())
-
 
 if __name__ == '__main__':
     loading_model()
