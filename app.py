@@ -583,7 +583,7 @@ def render_dash():
     return flask.redirect('/dash1')
 
 
-@server.route('/analysis2/')
+@server.route('/information')
 def render_dash1():
     return flask.redirect('/dash2')
 
