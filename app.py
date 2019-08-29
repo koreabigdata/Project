@@ -578,7 +578,7 @@ def hello_world(task=''):
     return render_template('index.html')
 
 
-@server.route('/analysis/')
+@server.route('/Analysis')
 def render_dash():
     return flask.redirect('/dash1')
 
