@@ -24,11 +24,11 @@ model = None
 PATH = Path(__file__).parent
 DATA_PATH = PATH.joinpath("static").resolve()
 
-df = pd.read_csv(DATA_PATH.joinpath("data.csv"), low_memory=False, encoding="utf8")
-df_pie = pd.read_csv(DATA_PATH.joinpath("pieplot.csv"), encoding="cp949")
-df["report_time"] = pd.to_datetime(df["report_time"])
-
-df_rank = pd.read_csv(DATA_PATH.joinpath("score_data1.csv"), low_memory=False, encoding="utf8")
+df = pd.read_csv(DATA_PATH.joinpath("csv/data.csv"), low_memory=False, encoding="utf8")
+df_pie = pd.read_csv(DATA_PATH.joinpath("csv/pieplot.csv"), low_memory=False, encoding="utf8")
+# df["report_time"] = pd.to_datetime(df["report_time"])
+df_rank = pd.read_csv(DATA_PATH.joinpath("csv/score_data.csv"), low_memory=False, encoding="utf8")
+df_mountains = pd.read_csv(DATA_PATH.joinpath("csv/mountain_weight.csv"), low_memory=False, index_col=0)
 
 loc_statuses_dict = dict(서울특별시="서울특별시", 강원도="강원도", 경상남도="경상남도",
                          경상북도="경상북도", 광주광역시="광주광역시", 대구광역시="대구광역시",
@@ -578,7 +578,7 @@ def hello_world(task=''):
     return render_template('index.html')
 
 
-@server.route('/Analysis')
+@server.route('/analysis')
 def render_dash():
     return flask.redirect('/dash1')
 
@@ -607,16 +607,23 @@ def get_post_javascript_data():
         x[i][5] = request.form.get(f'names[{i}][snow]', 0)
     loading_model()
     with graph.as_default():
-        preds = model.predict_proba(x)
-    mountain_list = [request.form.get(f'mountains[{i}]', 0) for i in range(int(max_list))]
-    df_mountains = pd.read_csv(DATA_PATH.joinpath("mountain_weight.csv"), index_col=0)
-    values = preds[:, 1] / preds[:, 0] * 0.2 + preds[:, 2] / preds[:, 0] * 0.8
-    list_value = values.tolist()
-    list_weight = [df_mountains.loc[i, 'weight'] if i in df_mountains.index else 0.018298748185446165 for i in
-                   mountain_list]
-    result_array = np.array(list_value) * np.array(list_weight)
-    minval = 0.00035494672381888403
-    maxval = 41.753419663213286
-    result_array = (result_array - minval) / (maxval - minval)
-    temp_rk = df_rank["mns"].append(pd.Series(result_array), ignore_index=True).rank(pct=True, ascending=False)[-15:]
-    return str(round(temp_rk * 100, 2).to_list())
+        try:
+            preds = model.predict_proba(x)
+        except Exception as e:
+            print(e)
+        mountain_list = [request.form.get(f'mountains[{i}]', 0) for i in range(int(max_list))]
+        values = preds[:, 1] / preds[:, 0] * 0.2 + preds[:, 2] / preds[:, 0] * 0.8
+        list_value = values.tolist()
+        list_weight = [df_mountains.loc[i, 'weight'] if i in df_mountains.index else 0.018298748185446165 for i in
+                       mountain_list]
+        result_array = np.array(list_value) * np.array(list_weight)
+        minval = 0.00035494672381888403
+        maxval = 41.753419663213286
+        result_array = (result_array - minval) / (maxval - minval)
+        temp_rk = df_rank["mns"].append(pd.Series(result_array), ignore_index=True).rank(pct=True, ascending=False)[-15:]
+        return str(round(temp_rk * 100, 2).to_list())
+
+
+if __name__ == '__main__':
+    loading_model()
+    app.run()
