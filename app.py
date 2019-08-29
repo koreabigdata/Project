@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from dash import Dash
 import numpy as np
 import tensorflow as tf
@@ -13,11 +13,7 @@ import copy
 from dash.dependencies import ClientsideFunction, Input, Output
 import plotly.graph_objects as go
 import datetime as dt
-import ast
-import json
-from multiprocessing import Value
 
-counter = Value('i', 0)
 server = Flask(__name__)
 dash_app = Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}], server=server,
                 url_base_pathname='/analysis/')
@@ -25,18 +21,15 @@ dash_app2 = Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=dev
                  url_base_pathname='/analysis2/')
 model = None
 
-# defining path
 PATH = Path(__file__).parent
 DATA_PATH = PATH.joinpath("static").resolve()
 
-# receiving data
-df = pd.read_csv(DATA_PATH.joinpath("data_3.csv"), low_memory=False, encoding="utf8")
+df = pd.read_csv(DATA_PATH.joinpath("data.csv"), low_memory=False, encoding="utf8")
 df_pie = pd.read_csv(DATA_PATH.joinpath("pieplot.csv"), encoding="cp949")
 df["report_time"] = pd.to_datetime(df["report_time"])
 
 df_rank = pd.read_csv(DATA_PATH.joinpath("score_data1.csv"), low_memory=False, encoding="utf8")
 
-# data_loc
 loc_statuses_dict = dict(서울특별시="서울특별시", 강원도="강원도", 경상남도="경상남도",
                          경상북도="경상북도", 광주광역시="광주광역시", 대구광역시="대구광역시",
                          대전광역시="대전광역시", 부산광역시="부산광역시", 세종특별자치시="세종특별자치시",
@@ -47,7 +40,6 @@ loc_statuses_options = [
     {'label': str(loc_statuses_dict[loc_status]), "value": str(loc_status)} for loc_status in loc_statuses_dict
 ]
 
-# defining Layout
 mapbox_access_token = "pk.eyJ1IjoiamFja2x1byIsImEiOiJjajNlcnh3MzEwMHZtMzNueGw3NWw5ZXF5In0.fk8k06T96Ml9CLGgKmk81w"
 
 data1 = [go.Pie(
@@ -198,9 +190,9 @@ dash_app.layout = html.Div(
                     [
                         html.H4("사고종별 산악사고 발생 비율"),
                         dcc.Graph(
-                        id="graph",
-                        figure=go.Figure(data=data1)
-                    )
+                            id="graph",
+                            figure=go.Figure(data=data1)
+                        )
                     ],
                     className="pretty_container five columns",
                 ),
@@ -225,9 +217,9 @@ dash_app.layout = html.Div(
                     [
                         html.H4("시간대별 산악 사고 발생 건수"),
                         dcc.Graph(
-                        id="main_graph",
-                        figure=go.Figure(data=data2)
-                    )],
+                            id="main_graph",
+                            figure=go.Figure(data=data2)
+                        )],
                     className="pretty_container six columns",
                 ),
 
@@ -392,7 +384,7 @@ dash_app2.layout = html.Div(
                                         height="100px",
                                         width="100px",
                                         style={
-                                            "float":"left"
+                                            "float": "left"
                                         }
                                     ),
                                     html.Div([
@@ -400,7 +392,7 @@ dash_app2.layout = html.Div(
                                         html.P("지점번호 : 다사 57XX 65YY"),
                                         html.P("상세지역 : 서울특별시 도봉구 도봉동 산29"),
                                     ], style={
-                                        "padding-left":"150px",
+                                        "padding-left": "150px",
                                     }
                                     ),
                                 ], className="mini_container",
@@ -431,7 +423,7 @@ dash_app2.layout = html.Div(
                                         height="100px",
                                         width="100px",
                                         style={
-                                            "float":"left"
+                                            "float": "left"
                                         }
                                     ),
                                     html.Div([
@@ -439,7 +431,7 @@ dash_app2.layout = html.Div(
                                         html.P("지점번호 : 다사 57XX 65YY"),
                                         html.P("상세지역 : 강원도 속초시 설악동 산31"),
                                     ], style={
-                                        "padding-left":"150px",
+                                        "padding-left": "150px",
                                     }
                                     ),
                                 ], className="mini_container",
@@ -532,7 +524,7 @@ def make_count_figure(loc_statuses, year_slider):
     layout_count = copy.deepcopy(layout)
 
     dff = filter_dataframe(df, loc_statuses, [2010, 2018])
-    g = dff[["산지역", "report_time_simple", 'report_time']]
+    g = dff[["산지역", 'report_time']]
     g = g.set_index('report_time')
     g = g.resample("M").count()
 
@@ -582,10 +574,8 @@ loading_model()
 
 
 @server.route('/')
-@server.route('/<task>')
 def hello_world(task=''):
-    print("printing task: ", task)
-    return render_template('index.html', task=task)
+    return render_template('index.html')
 
 
 @server.route('/analysis/')
@@ -604,114 +594,29 @@ app = DispatcherMiddleware(server, {
 })
 
 
-@server.route('/predict/<numpy_array>')
-def predict(numpy_array):
-    x = numpy_array
-    x = ast.literal_eval(x)
-    #    print(type(x))
-    x = np.array(x)
-    #    print(x)
-    #    print(type(x))
-    #    x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
-    list_value = []
-    with graph.as_default():
-        # x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
-        #        x = [x]
-        preds = model.predict_proba(x)
-    print(type(preds))
-    for preds_length in range(len(preds)):
-        s1 = preds[preds_length][1] / preds[preds_length][0]
-        s2 = preds[preds_length][2] / preds[preds_length][0]
-        s = s1 * 0.2 + s2 * 0.8
-        list_value.append(s)
-    print(preds[0])
-    print(preds[0][1])
-    return redirect(url_for("hello_world", predict=list_value))
-
-
-@server.route('/weather', methods=['GET','POST'])
+@server.route('/weather', methods=['GET', 'POST'])
 def get_post_javascript_data():
-#    list2append=[]
-    with counter.get_lock():
-        counter.value += 1
-#    names = None
-#    if request.method == "POST":
-    names = request.form
-    print(" names: ",names)
-#    names = request.args.getlist("data")
-#    names = json.load(names)
-    names = dict(names)
-#    print(type(names))
-
-#    list1 = np.array(list(names.values()), dtype=float)
-    list1 = list(names.values())
-    print("list1:",list1)
-    max_length = int(list1.pop())
-    minus_index = (-1)*max_length
-    mountain_list = list1[minus_index:]
-    list1 = list1[:minus_index]
-    print(mountain_list)
-    list2 = []
-    list2_temp = []
-    confirmed_list = []
-    for row_num in range(int(len(list1)/6)):
-        list2_temp = list1[0+6*row_num:6+6*row_num]
-        list2_temp = np.array(list2_temp, dtype=float)
-        list2.append(list2_temp)
-        if len(list2) == max_length:
-            confirmed_list = np.array(list2)
-    print("checking list2_temp: ", list2_temp)
-    a = confirmed_list.tolist()
-    print("checking list 2:", list2)
-#    print("checking list confirmed list : ", confirmed_list)
-#    list2append.append(list1)
-
-#    print(counter.value)
-#    if counter.value >= 15:
-#        n = 15 * int(counter.value / 15)
-#        new_list = list2append[n:]
-#    else:
-#        new_list = list2append
-#    print(new_list)
+    max_list = request.form.get('max_list', 0)
+    x = np.zeros((int(max_list), 6))
+    for i in range(int(max_list)):
+        x[i][0] = request.form.get(f'names[{i}][temp]', 0)
+        x[i][1] = request.form.get(f'names[{i}][rain]', 0)
+        x[i][2] = request.form.get(f'names[{i}][speed]', 0)
+        x[i][3] = request.form.get(f'names[{i}][humidity]', 0)
+        x[i][4] = request.form.get(f'names[{i}][dew]', 0)
+        x[i][5] = request.form.get(f'names[{i}][snow]', 0)
+    loading_model()
     with graph.as_default():
-        #x = np.array([-12.2, 0., 2.2, 29., -26.6, 0.])
-#        x = [x]
-        preds = model.predict_proba(confirmed_list)
-    print(preds)
-
-    list_value = []
-    for preds_length in range(len(preds)):
-        s1 = preds[preds_length][1] / preds[preds_length][0]
-        s2 = preds[preds_length][2] / preds[preds_length][0]
-        s = s1 * 0.2 + s2 * 0.8
-        list_value.append(s)
-    print(list_value)
-    list_weight = []
-    df_mountains = pd.read_csv(DATA_PATH.joinpath("mountain_weight.csv"))
-    for items in mountain_list:
-        if len(df_mountains.loc[df_mountains['인접산']==items,"weight"].values) == 0:
-            list_weight.append(0.018298748185446165)
-        else:
-            list_weight.append(df_mountains.loc[df_mountains['인접산']==items,"weight"].values[0])
-    print(list_weight)
-    array1 = np.array(list_value)
-    array2 = np.array(list_weight)
-    result_array = array1*array2
+        preds = model.predict_proba(x)
+    mountain_list = [request.form.get(f'mountains[{i}]', 0) for i in range(int(max_list))]
+    df_mountains = pd.read_csv(DATA_PATH.joinpath("mountain_weight.csv"), index_col=0)
+    values = preds[:, 1] / preds[:, 0] * 0.2 + preds[:, 2] / preds[:, 0] * 0.8
+    list_value = values.tolist()
+    list_weight = [df_mountains.loc[i, 'weight'] if i in df_mountains.index else 0.018298748185446165 for i in
+                   mountain_list]
+    result_array = np.array(list_value) * np.array(list_weight)
     minval = 0.00035494672381888403
     maxval = 41.753419663213286
-    result_array = (result_array - minval)/(maxval - minval)
-    print(result_array)
-    result1 = result_array.tolist()
-    if confirmed_list != []:
-
-        print("confirmed")
-        #return redirect(url_for('predict', numpy_array=a))
-    print("result1", result1)
-    # result1 = str(result1)
-    # print(type(result1))
-
-    temp_rk = df_rank["mns"].append(pd.Series(result1), ignore_index=True).rank(pct=True, ascending=False)[-15:]
-    temp_rk = round(temp_rk*100,2).to_list()
-    print(temp_rk)
-    temp_rk = str(temp_rk)
-    return temp_rk
+    result_array = (result_array - minval) / (maxval - minval)
+    temp_rk = df_rank["mns"].append(pd.Series(result_array), ignore_index=True).rank(pct=True, ascending=False)[-15:]
+    return str(round(temp_rk * 100, 2).to_list())

@@ -78,12 +78,11 @@ function weather_func(lat, lon,mountain){
                 weatherinfo.push(weather_2);
 
 
-                if(weather_array.length == mountain.length) {
+                if(weather_array.length==mountain.length) {
                     $.ajaxSetup({async: false});
                     $.post("/weather", {
                         names: weather_array,
                         mountains: moutain_obj,
-                        async: false,
                         max_list: lat.length,
                     }, function (data) {
                         var dangerous = data;
